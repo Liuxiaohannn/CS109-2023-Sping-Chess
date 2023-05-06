@@ -27,4 +27,7 @@ public class ChessPiece {
     public PlayerColor getOwner() {
         return owner;
     }
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
 }
