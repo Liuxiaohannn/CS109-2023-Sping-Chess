@@ -30,14 +30,15 @@ public class CellComponent extends JPanel {
         // Load the image based on the background color
 //        try {
         if (gridType.equals(GridType.RIVER)) {
-            background = Color.decode("#57C5B6");
+            this.background = Color.decode("#57C5B6");
         } else if (gridType.equals(GridType.LAND)) {
-            background = Color.decode("#A9907E");
+            this.background = Color.decode("#A9907E");
         } else if (gridType.equals(GridType.TRAP)) {
-            background = Color.decode("#7AA874");
+            this.background = Color.decode("#7AA874");
         } else if (gridType.equals(GridType.DENS)) {
-            background = Color.decode("#D14D72");
+            this.background = Color.decode("#D14D72");
         }
+
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
@@ -51,6 +52,12 @@ public class CellComponent extends JPanel {
                 getParent().dispatchEvent(new MouseEvent(getParent(), e.getID(), e.getWhen(), e.getModifiersEx(), getLocation().x + e.getX(), getLocation().y + e.getY(), e.getClickCount(), e.isPopupTrigger(), e.getButton()));
             }
         });
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponents(g);
+        g.setColor(background);
+        g.fillRect(1, 1, this.getWidth()-1, this.getHeight()-1);
     }
 
     public void setValidMove(boolean validMove) {
