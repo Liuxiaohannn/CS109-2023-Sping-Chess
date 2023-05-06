@@ -7,7 +7,7 @@ import model.PlayerColor;
 import model.Chessboard;
 import model.ChessboardPoint;
 import view.CellComponent;
-import view.ElephantChessComponent;
+import view.AnimalChessComponent.ElephantChessComponent;
 import view.ChessboardComponent;
 
 /**
