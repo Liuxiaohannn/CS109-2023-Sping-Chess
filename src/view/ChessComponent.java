@@ -1,14 +1,20 @@
 package view;
 
+
 import model.PlayerColor;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This is the equivalent of the ChessPiece class,
+ * but this class only cares how to draw Chess on ChessboardComponent
+ */
 public class ChessComponent extends JComponent {
     protected PlayerColor owner;
 
     protected boolean selected;
+
     public ChessComponent(PlayerColor owner, int size) {
         this.owner = owner;
         this.selected = false;
@@ -46,4 +52,4 @@ public class ChessComponent extends JComponent {
             g.drawOval(2, 2, getWidth() - 2, getHeight() - 2);
         }
     }
-}
+}//画圈（棋子）

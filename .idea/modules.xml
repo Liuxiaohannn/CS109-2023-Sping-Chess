@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CS109-2023-Sping-Chess.iml" filepath="$PROJECT_DIR$/CS109-2023-Sping-Chess.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CS109-initial.iml" filepath="$PROJECT_DIR$/CS109-initial.iml" />
     </modules>
   </component>
 </project>
