@@ -17,7 +17,7 @@ public class ElephantChessComponent extends ChessComponent {
         super(owner, size);
 
         // Load the GIF image
-        gifImage = new ImageIcon(getClass().getResource("\u202AC:\\Users\\86131\\Desktop\\CS109 JavaA  弱智斗兽棋\\Animal\\Stomping Elephant\\StompingElephantIdleSide.gif"));
+        gifImage = new ImageIcon(getClass().getResource("/Animal picture/Elephant/StompingElephantIdleSide.gif"));
 
     }
 

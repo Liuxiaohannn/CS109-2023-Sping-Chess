@@ -13,7 +13,7 @@ public class RatChessComponent extends ChessComponent {
     super(owner, size);
 
     // Load the GIF image
-    gifImage = new ImageIcon(getClass().getResource("\u202AC:\\Users\\86131\\Desktop\\CS109 JavaA  弱智斗兽棋\\Animal\\Stinky Skunk\\StinkySkunkIdleSide.gif"));
+    gifImage = new ImageIcon(getClass().getResource("/Animal picture/Mouse(Skunk)/StinkySkunkIdleSide.gif"));
 
   }
 

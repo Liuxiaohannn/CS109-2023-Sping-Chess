@@ -13,7 +13,7 @@ public class WolfChessComponent extends ChessComponent {
     super(owner, size);
 
     // Load the GIF image
-    gifImage = new ImageIcon(getClass().getResource("C:\\Users\\86131\\Desktop\\CS109 JavaA  弱智斗兽棋\\Animal\\Arctic Wolf\\ArcticWolfIdleSide.gif"));
+    gifImage = new ImageIcon(getClass().getResource("/Animal picture/Wolf/TimberWolfIdleSide.gif"));
   }
 
   @Override

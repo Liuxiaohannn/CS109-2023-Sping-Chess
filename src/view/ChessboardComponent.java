@@ -3,7 +3,6 @@ package view;
 
 import controller.GameController;
 import model.*;
-import view.ChessComponent;
 import view.animalChessComponent.*;
 
 import javax.swing.*;
@@ -38,8 +37,9 @@ public class ChessboardComponent extends JComponent {
         setLayout(null); // Use absolute layout.
         setSize(width, height);
         System.out.printf("chessboard width, height = [%d : %d], chess size = %d\n", width, height, CHESS_SIZE);
-
+        initiateSets();
         initiateGridComponents();
+
     }
 
 
@@ -65,12 +65,12 @@ public class ChessboardComponent extends JComponent {
 //                    System.out.println(chessPiece.getOwner());
                     if (chessPiece.getName().equals("Elephant")){
                         gridComponents[i][j].add(
-                                new ChessComponent(
+                                new ElephantChessComponent(
                                         chessPiece.getOwner(),
                                         CHESS_SIZE));
                     } else if (chessPiece.getName().equals("Lion")){
                         gridComponents[i][j].add(
-                                new LionChessComponent(
+                                new   LionChessComponent(
                                         chessPiece.getOwner(),
                                         CHESS_SIZE));
                     } else if (chessPiece.getName().equals("Tiger")){
