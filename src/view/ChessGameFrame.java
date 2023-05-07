@@ -1,7 +1,5 @@
 package view;
 
-import controller.GameController;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,6 +14,7 @@ public class ChessGameFrame extends JFrame {
     private final int ONE_CHESS_SIZE;
 
     private ChessboardComponent chessboardComponent;
+
     public ChessGameFrame(int width, int height) {
         setTitle("2023 CS109 Project Demo"); //设置标题
         this.WIDTH = width;
