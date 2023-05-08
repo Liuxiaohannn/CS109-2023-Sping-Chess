@@ -20,7 +20,7 @@ public class Chessboard {
         this.grid =
                 new Cell[Constant.CHESSBOARD_ROW_SIZE.getNum()][Constant.CHESSBOARD_COL_SIZE.getNum()];//19X19
 
-//        initSets();目前加入报错，原因未知
+        initSets();
         initGrid();
         initPieces();
     }
@@ -77,7 +77,7 @@ public class Chessboard {
         }
     }
 
-    private void initPieces() {
+    public void initPieces() {
         for (int i = 0; i < Constant.CHESSBOARD_ROW_SIZE.getNum(); i++) {
             for (int j = 0; j < Constant.CHESSBOARD_COL_SIZE.getNum(); j++) {
                 grid[i][j].removePiece();
@@ -203,76 +203,6 @@ public class Chessboard {
         return calculateDistance(src, dest) == 1;
     }
 
-    public void solveTrap(ChessboardPoint selectedPoint, ChessboardPoint destPoint) {
-        //对于进入陷阱与出陷阱的处理
-        if (getGridAt(destPoint).getType() == GridType.TRAP && getGridAt(destPoint).getOwner() != getChessPieceAt(selectedPoint).getOwner()) {
-            getTrapped(selectedPoint);
-        } else if (getGridAt(selectedPoint).getType() == GridType.TRAP && getGridAt(selectedPoint).getOwner() != getChessPieceAt(selectedPoint).getOwner()) {
-            exitTrap(selectedPoint);
-        }
-    }
-
-    public void getTrapped(ChessboardPoint point) {
-        getGridAt(point).getPiece().setRank(0);
-    }
-
-    public void exitTrap(ChessboardPoint point) {
-        switch (getGridAt(point).getPiece().getName()) {
-            case "Rat":
-                getGridAt(point).getPiece().setRank(1);
-                break;
-            case "Cat":
-                getGridAt(point).getPiece().setRank(2);
-                break;
-            case "Dog":
-                getGridAt(point).getPiece().setRank(3);
-                break;
-            case "Wolf":
-                getGridAt(point).getPiece().setRank(4);
-                break;
-            case "Leopard":
-                getGridAt(point).getPiece().setRank(5);
-                break;
-            case "Tiger":
-                getGridAt(point).getPiece().setRank(6);
-                break;
-            case "Lion":
-                getGridAt(point).getPiece().setRank(7);
-                break;
-            case "Elephant":
-                getGridAt(point).getPiece().setRank(8);
-                break;
-        }
-    }
-//    public Step recordStep(ChessboardPoint fromPoint, ChessboardPoint toPoint, PlayerColor currentPlayer, int turn){
-//        ChessPiece fromPiece = getChessPieceAt(fromPoint);
-//        ChessPiece toPiece = getChessPieceAt(toPoint);
-//        Step step = new Step(fromPoint, toPoint, fromPiece, toPiece, currentPlayer, turn);
-////        System.out.println(step);
-//        return step;
-//    }
-//    悔棋方法，目前先不加入
-
-//    public void undoStep(Step step){
-//        ChessboardPoint fromPoint = step.getFrom();
-//        ChessboardPoint toPoint = step.getTo();
-//        ChessPiece fromPiece = step.getFromChessPiece();
-//        ChessPiece toPiece = step.getToChessPiece();
-//        if (toPiece != null) {
-//            setChessPiece(toPoint, toPiece);
-//        } else {
-//            setChessPiece(toPoint, null);
-//        }
-//        setChessPiece(fromPoint, fromPiece);
-//    }
-    //用于执行step中存储的行为
-//public void runStep(Step step){
-//    ChessboardPoint fromPoint = step.getFrom();
-//    ChessboardPoint toPoint = step.getTo();
-//    ChessPiece fromPiece = step.getFromChessPiece();
-//    setChessPiece(fromPoint, null);
-//    setChessPiece(toPoint, fromPiece);
-//}
 
     public boolean isValidCapture(ChessboardPoint src, ChessboardPoint dest) {
         ChessPiece srcPiece = getChessPieceAt(src);
@@ -331,6 +261,104 @@ public class Chessboard {
             }
         }
         return calculateDistance(src, dest) == 1 && srcPiece.canCapture(destPiece);
+    }
+    public void solveTrap(ChessboardPoint selectedPoint, ChessboardPoint destPoint) {
+        //对于进入陷阱与出陷阱的处理
+        if (getGridAt(destPoint).getType() == GridType.TRAP && getGridAt(destPoint).getOwner() != getChessPieceAt(selectedPoint).getOwner()) {
+            getTrapped(selectedPoint);
+        } else if (getGridAt(selectedPoint).getType() == GridType.TRAP && getGridAt(selectedPoint).getOwner() != getChessPieceAt(selectedPoint).getOwner()) {
+            exitTrap(selectedPoint);
+        }
+    }
+    public boolean checkAnnihilate(PlayerColor currentPlayer){
+        // 检查是否还有敌方棋子
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 7; j++) {
+                ChessboardPoint point = new ChessboardPoint(i, j);
+                if (getChessPieceAt(point) != null && getChessPieceAt(point).getOwner() != currentPlayer) {
+                    // 检查敌方棋子周围是否全是己方等级更高的棋子
+                    for (int k = 0; k < 4; k++) {
+                        ChessboardPoint neighbor = point.getNeighbor(k);
+                        if (neighbor.getRow()<0 || neighbor.getRow()>8 || neighbor.getCol()<0 || neighbor.getCol()>6) {
+                            continue;
+                        }
+                        if (getChessPieceAt(neighbor) == null || (getChessPieceAt(neighbor).getOwner() == currentPlayer
+                                && getChessPieceAt(neighbor).getRank() < getChessPieceAt(point).getRank())) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println("Annihilate!");
+        return true;
+    }
+    public void getTrapped(ChessboardPoint point) {
+        getGridAt(point).getPiece().setRank(0);
+    }
+
+    public void exitTrap(ChessboardPoint point) {
+        switch (getGridAt(point).getPiece().getName()) {
+            case "Rat":
+                getGridAt(point).getPiece().setRank(1);
+                break;
+            case "Cat":
+                getGridAt(point).getPiece().setRank(2);
+                break;
+            case "Dog":
+                getGridAt(point).getPiece().setRank(3);
+                break;
+            case "Wolf":
+                getGridAt(point).getPiece().setRank(4);
+                break;
+            case "Leopard":
+                getGridAt(point).getPiece().setRank(5);
+                break;
+            case "Tiger":
+                getGridAt(point).getPiece().setRank(6);
+                break;
+            case "Lion":
+                getGridAt(point).getPiece().setRank(7);
+                break;
+            case "Elephant":
+                getGridAt(point).getPiece().setRank(8);
+                break;
+        }
+    }
+
+    public boolean solveDens(ChessboardPoint destPoint) {
+        if (getGridAt(destPoint).getType() == GridType.DENS) {
+            return true;
+        }
+        return false;
+    }
+    public Step recordStep(ChessboardPoint fromPoint, ChessboardPoint toPoint, PlayerColor currentPlayer, int turn){
+        ChessPiece fromPiece = getChessPieceAt(fromPoint);
+        ChessPiece toPiece = getChessPieceAt(toPoint);
+        Step step = new Step(fromPoint, toPoint, fromPiece, toPiece, currentPlayer, turn);
+//        System.out.println(step);
+        return step;
+    }
+    //悔棋返回上一步
+    public void undoStep(Step step){
+        ChessboardPoint fromPoint = step.getFrom();
+        ChessboardPoint toPoint = step.getTo();
+        ChessPiece fromPiece = step.getFromChessPiece();
+        ChessPiece toPiece = step.getToChessPiece();
+        if (toPiece != null) {
+            setChessPiece(toPoint, toPiece);
+        } else {
+            setChessPiece(toPoint, null);
+        }
+        setChessPiece(fromPoint, fromPiece);
+    }
+    //用于执行step中存储的行为
+    public void runStep(Step step){
+        ChessboardPoint fromPoint = step.getFrom();
+        ChessboardPoint toPoint = step.getTo();
+        ChessPiece fromPiece = step.getFromChessPiece();
+        setChessPiece(fromPoint, null);
+        setChessPiece(toPoint, fromPiece);
     }
 
     public List<ChessboardPoint> getValidMoves(ChessboardPoint point) {

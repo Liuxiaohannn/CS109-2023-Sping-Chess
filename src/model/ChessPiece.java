@@ -1,7 +1,9 @@
 package model;
 
 
-public class ChessPiece {
+import java.io.Serializable;
+
+public class ChessPiece implements Serializable {
     // the owner of the chess
     private PlayerColor owner;
 
@@ -16,7 +18,18 @@ public class ChessPiece {
     }
 
     public boolean canCapture(ChessPiece target) {
-        // TODO: Finish this method!
+        if (target.getOwner() == this.owner){
+            return false;
+        }
+        if (this.name.equals("Elephant") && target.name.equals("Rat")){
+            return false;
+        }
+        if (this.name.equals("Rat") && target.name.equals("Elephant")){
+            return true;
+        }
+        if (this.rank >= target.rank) {
+            return true;
+        }
         return false;
     }
 
@@ -27,7 +40,18 @@ public class ChessPiece {
     public PlayerColor getOwner() {
         return owner;
     }
+
+    public int getRank() {
+        return rank;
+    }
+
     public void setRank(int rank) {
         this.rank = rank;
+    }
+
+    //toString
+    @Override
+    public String toString() {
+        return "("+ owner + ","+ name + ","+ rank +") ";
     }
 }

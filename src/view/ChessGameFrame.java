@@ -10,6 +10,7 @@ public class ChessGameFrame extends JFrame {
     //    public final Dimension FRAME_SIZE ;
     private final int WIDTH;
     private final int HEIGTH;
+    private JLabel statusLabel;
 
     private final int ONE_CHESS_SIZE;
 
@@ -60,6 +61,10 @@ public class ChessGameFrame extends JFrame {
         add(statusLabel);
     }
 
+    public void updateStatus(String status) {
+        statusLabel.setText(status);
+    }
+
     /**
      * 在游戏面板中增加一个按钮，如果按下的话就会显示Hello, world!
      */
@@ -71,7 +76,7 @@ public class ChessGameFrame extends JFrame {
         button.setSize(200, 60);
         button.setFont(new Font("Rockwell", Font.BOLD, 20));
         add(button);
-    }
+
 
 //    private void addLoadButton() {
 //        JButton button = new JButton("Load");
@@ -88,4 +93,5 @@ public class ChessGameFrame extends JFrame {
 //    }
 
 
+    }
 }
