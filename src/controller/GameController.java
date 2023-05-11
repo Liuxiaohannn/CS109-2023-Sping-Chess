@@ -172,5 +172,59 @@ public class GameController implements GameListener {
         validMoves.clear();
         view.getChessGameFrame().updateStatus(String.format("Turn %d: %s's turn", turnCount, currentPlayer));
     }
+    public void undo() {
+        //悔棋！
+        if (stepList.isEmpty()) {
+            return;
+        }
+        Step step = stepList.remove(stepList.size() - 1);
+        model.undoStep(step);
+        view.undoStep(step);
+        view.repaint();
+        swapColor(true);
 
+    }
+
+    public void save() {
+        //存档功能
+        JFileChooser fileChooser = new JFileChooser();//文件选择器
+        int result = fileChooser.showSaveDialog(view.getChessGameFrame());
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(file))) {
+                outputStream.writeObject(stepList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void load() {
+        //加载过去存档
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(view.getChessGameFrame());
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file))) {
+                List<Step> stepList = (List<Step>) inputStream.readObject();
+                restart();
+                for (Step step : stepList) {
+                    model.runStep(step);
+                    view.runStep(step);
+//                    view.repaint();
+                    swapColor(false);
+                    try {
+                        Thread.sleep(250);
+                        view.paintImmediately(0, 0, view.getWidth(), view.getHeight());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                this.stepList = stepList;
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

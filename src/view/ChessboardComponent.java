@@ -29,7 +29,8 @@ public class ChessboardComponent extends JComponent {
 
     private GameController gameController;
 
-    public ChessboardComponent(int chessSize) {
+    public ChessboardComponent(int chessSize, ChessGameFrame chessGameFrame) {
+        this.chessGameFrame = chessGameFrame;
         CHESS_SIZE = chessSize;
         int width = CHESS_SIZE * 7;
         int height = CHESS_SIZE * 9;
@@ -37,10 +38,11 @@ public class ChessboardComponent extends JComponent {
         setLayout(null); // Use absolute layout.
         setSize(width, height);
         System.out.printf("chessboard width, height = [%d : %d], chess size = %d\n", width, height, CHESS_SIZE);
+
         initiateSets();
         initiateGridComponents();
-
     }
+
 
 
     /**
@@ -220,7 +222,7 @@ public class ChessboardComponent extends JComponent {
     public void showWinDialog(String winner) {
         int result = JOptionPane.showConfirmDialog(this, winner + " Win! Do you want to restart?", "Game Over", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
-//            gameController.restart();
+          gameController.restart();
         }
     }
 
