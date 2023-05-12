@@ -10,6 +10,7 @@ import view.UI.RoundButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 public class MainGameFrame extends JFrame {
   private final int WIDTH;
@@ -22,6 +23,7 @@ public class MainGameFrame extends JFrame {
   private JButton exitButton;
   private Server server;
   private User user;
+  private String[] bgPaths = {"/MainBackground.png", "/Midouzi.png", "/Wakuku.jpg", "/Weierlite.png"};
 
   public MainGameFrame(int width, int height,Server server, User user) {
     this.WIDTH = width;
@@ -126,6 +128,11 @@ public class MainGameFrame extends JFrame {
         });
       });
     exitButton.addActionListener(e -> System.exit(0));
+  }
+  public void setBackgroundImage(int index) {
+    URL path = getClass().getResource(bgPaths[index - 1]);
+    mainPanel.setBackgroundImage(path);
+    mainPanel.repaint();
   }
   public Server getServer() {
     return server;

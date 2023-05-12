@@ -77,6 +77,7 @@ public class SettingGameFrame extends JFrame {
     setLayout(null);
 
     initComponents();
+    addBackgroundButton(this.mainGameFrame);
     addBackgroundImage();
     setupLayout();
 
@@ -94,6 +95,7 @@ public class SettingGameFrame extends JFrame {
     setLayout(null);
 
     initComponents();
+    addBackgroundButton(this.chessGameFrame);
     addBackgroundImage();
     setupLayout();
 
@@ -110,7 +112,7 @@ public class SettingGameFrame extends JFrame {
     addLoginButton();
     addRankButton();
     addVolumeButton();
-    addBackgroundButton();
+//    addBackgroundButton();
     addChessboardButton();
     addRuleButton();
     addBackButton();
@@ -263,7 +265,7 @@ public class SettingGameFrame extends JFrame {
     volumeButton.setFont(new Font("Arial", Font.BOLD, 24));
   }
 
-  private void addBackgroundButton() {
+  private void addBackgroundButton(ChessGameFrame chessGameFrame) {
     backgroundButton = new RoundButton("Background");
     backgroundButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     backgroundButton.setFont(new Font("Arial", Font.BOLD, 24));
@@ -304,6 +306,55 @@ public class SettingGameFrame extends JFrame {
       background4Button.addActionListener(e1 -> {
         backgroundDialog.dispose();
         chessGameFrame.setBackgroundImage(4);
+      });
+      inputPanel.add(background1Button);
+      inputPanel.add(background2Button);
+      inputPanel.add(background3Button);
+      inputPanel.add(background4Button);
+
+      backgroundDialog.add(inputPanel, BorderLayout.CENTER);
+      backgroundDialog.setVisible(true);
+    });
+  }
+private void addBackgroundButton(MainGameFrame mainFrame) {
+    backgroundButton = new RoundButton("Background");
+    backgroundButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    backgroundButton.setFont(new Font("Arial", Font.BOLD, 24));
+    backgroundButton.addActionListener(e -> {
+      System.out.println("backgroundButton clicked");
+      if (mainFrame == null) {
+        System.out.println("mainFrame is null");
+        return;
+      }
+      // 创建背景选择对话框
+      JDialog backgroundDialog = new JDialog(this, "Background", true);
+      backgroundDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+      backgroundDialog.setSize(300, 200);
+      backgroundDialog.setLocationRelativeTo(this);
+
+
+      // 添加背景选择按钮
+      JPanel inputPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+      inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+      JButton background1Button = new JButton("Background 1");
+      JButton background2Button = new JButton("Background 2");
+      JButton background3Button = new JButton("Background 3");
+      JButton background4Button = new JButton("Background 4");
+      background1Button.addActionListener(e1 -> {
+        backgroundDialog.dispose();
+        mainFrame.setBackgroundImage(1);
+      });
+      background2Button.addActionListener(e1 -> {
+        backgroundDialog.dispose();
+        mainFrame.setBackgroundImage(2);
+      });
+      background3Button.addActionListener(e1 -> {
+        backgroundDialog.dispose();
+        mainFrame.setBackgroundImage(3);
+      });
+      background4Button.addActionListener(e1 -> {
+        backgroundDialog.dispose();
+        mainFrame.setBackgroundImage(4);
       });
       inputPanel.add(background1Button);
       inputPanel.add(background2Button);
