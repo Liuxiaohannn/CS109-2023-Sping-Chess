@@ -1,6 +1,7 @@
 package view;
 
-
+import controller.Server;
+import controller.User;
 import view.UI.ImagePanel;
 import view.UI.RoundButton;
 import view.UI.RoundLabel;
@@ -20,6 +21,8 @@ public class ChessGameFrame extends JFrame {
 
     private final int BUTTON_WIDTH = 150;
     private final int BUTTON_HEIGHT = 50;
+    private Server server;
+    private User user;
 
     private ImagePanel mainPanel;
     private JLabel statusLabel;
@@ -30,12 +33,14 @@ public class ChessGameFrame extends JFrame {
     private JButton SettingButton;
     private JButton ExitButton;
     private ChessboardComponent chessboardComponent;
-    private String[] bgPaths = {"/gameBg.jpg", "/gameBg2.jpg", "/gameBg3.jpg", "/gameBg4.jpg"};
-    public ChessGameFrame(int width, int height) {
+    private String[] bgPaths = {"/MainBackground.png", "/Scenery.png", "/Wakuwaku.png", "/Wolf.png"};
+    public ChessGameFrame(int width, int height, Server server, User user) {
         setTitle("2023 CS109 Project Demo"); //设置标题
         this.WIDTH = width;
         this.HEIGHT = height;
         this.ONE_CHESS_SIZE = (HEIGHT * 4 / 5) / 9;
+        this.server = server;
+        this.user = user;
 
 
         setSize(WIDTH, HEIGHT);
@@ -169,7 +174,8 @@ public class ChessGameFrame extends JFrame {
         SettingButton.addActionListener(e -> {
             System.out.println("Click setting");
             SwingUtilities.invokeLater(() -> {
-
+                SettingGameFrame settingFrame = new SettingGameFrame(500, 750, this);
+                settingFrame.setVisible(true);
             });
         });
     }
@@ -182,7 +188,7 @@ public class ChessGameFrame extends JFrame {
             System.out.println("Click exit");
             SwingUtilities.invokeLater(() -> {
                 dispose();
-                MainGameFrame mainGameFrame = new MainGameFrame(800, 1000);
+                MainGameFrame mainGameFrame = new MainGameFrame(800, 1000,server, user);
                 mainGameFrame.setVisible(true);
             });
         });
@@ -198,6 +204,11 @@ public class ChessGameFrame extends JFrame {
         statusLabel.setText(status);
     }
 
+    public void recordWin() {
+        server.getRankQueue().remove(user);
+        user.setScore(user.getScore() + 1);
+        server.getRankQueue().add(user);
+    }
 
 
 
@@ -208,6 +219,13 @@ public class ChessGameFrame extends JFrame {
 
     public void setChessboardComponent(ChessboardComponent chessboardComponent) {
         this.chessboardComponent = chessboardComponent;
+    }
+    public Server getServer() {
+        return server;
+    }
+
+    public User getUser() {
+        return user;
     }
 
 
