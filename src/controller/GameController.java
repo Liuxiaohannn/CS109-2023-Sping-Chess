@@ -6,15 +6,13 @@ import listener.GameListener;
 import model.*;
 import view.CellComponent;
 import view.ChessComponent;
-import view.ChessGameFrame;
 import view.ChessboardComponent;
-import music.MusicThread;
-
 
 import javax.swing.*;
 import java.io.*;
-import java.util.*;
-import javax.swing.Timer;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Controller is the connection between model and view,
@@ -163,6 +161,7 @@ public class GameController implements GameListener {
         model.initPieces();
         view.initiateGridComponents();
         view.initiateChessComponent(model);
+        view.revalidate();
         view.repaint();
         currentPlayer = PlayerColor.BLUE;
         winner = null;
@@ -211,14 +210,16 @@ public class GameController implements GameListener {
                 for (Step step : stepList) {
                     model.runStep(step);
                     view.runStep(step);
-//                    view.repaint();
+                    view.revalidate();
+                    view.repaint();
                     swapColor(false);
-                    try {
-                        Thread.sleep(250);
-                        view.paintImmediately(0, 0, view.getWidth(), view.getHeight());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        Thread.sleep(250);
+//
+//                        view.paintImmediately(0, 0, view.getWidth(), view.getHeight());
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
                 }
 
                 this.stepList = stepList;

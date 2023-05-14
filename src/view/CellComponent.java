@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 
 public class CellComponent extends JPanel {
@@ -52,12 +51,40 @@ public class CellComponent extends JPanel {
                 getParent().dispatchEvent(new MouseEvent(getParent(), e.getID(), e.getWhen(), e.getModifiersEx(), getLocation().x + e.getX(), getLocation().y + e.getY(), e.getClickCount(), e.isPopupTrigger(), e.getButton()));
             }
         });
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                highlightGrid();
+                repaint();
+            }
+        });
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                resetGridColors();
+                repaint();
+            }
+        });
     }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponents(g);
         g.setColor(background);
         g.fillRect(1, 1, this.getWidth()-1, this.getHeight()-1);
+    }
+    public void highlightGrid(){
+        this.background=Color.decode("#FFFF00");
+    }
+    public void resetGridColors(){
+        if (gridType.equals(GridType.RIVER)) {
+            this.background = Color.decode("#57C5B6");
+        } else if (gridType.equals(GridType.LAND)) {
+            this.background = Color.decode("#A9907E");
+        } else if (gridType.equals(GridType.TRAP)) {
+            this.background = Color.decode("#7AA874");
+        } else if (gridType.equals(GridType.DENS)) {
+            this.background = Color.decode("#D14D72");
+        }
     }
 
     public void setValidMove(boolean validMove) {

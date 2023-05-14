@@ -345,6 +345,7 @@ public class ChessboardComponent extends JComponent {
                 gameController.onPlayerClickChessPiece(getChessboardPoint(e.getPoint()), (ChessComponent) clickedComponent.getComponents()[0]);
             }
         }
+
     }
     public GameController getGameController() {
         return gameController;

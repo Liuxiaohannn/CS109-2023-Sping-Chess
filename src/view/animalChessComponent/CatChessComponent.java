@@ -16,6 +16,7 @@ public class CatChessComponent extends ChessComponent {
     gifImage = new ImageIcon(getClass().getResource("/Animal picture/Cat/MeowingCatIdleSide.gif"));
   }
 
+
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
