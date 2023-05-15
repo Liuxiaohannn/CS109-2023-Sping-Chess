@@ -78,31 +78,37 @@ public class ChessGameFrame extends JFrame {
         mainPanel.add(SettingButton);
 
         // 设置Label在顶部
-        statusLabel.setLocation(WIDTH / 2 - 150, 0);
+        statusLabel.setLocation(WIDTH*35/48, 40*HEIGHT/100);
+//        statusLabel.setLocation(0, HEIGHT/9);
         mainPanel.add(statusLabel);
 
         // 设置ExitButton在右上角
-        ExitButton.setLocation(WIDTH - BUTTON_WIDTH, 0);
+//        ExitButton.setLocation(WIDTH - BUTTON_WIDTH, 0);
+        ExitButton.setLocation(0, HEIGHT/7);
         mainPanel.add(ExitButton);
 
         // 设置棋盘在中央
-        chessboardComponent.setLocation((WIDTH - (ONE_CHESS_SIZE * 7)) / 2, (HEIGHT - (ONE_CHESS_SIZE * 7)) / 2 - 120);
+       chessboardComponent.setLocation((WIDTH - (ONE_CHESS_SIZE * 7)) / 2, (HEIGHT - (ONE_CHESS_SIZE * 7)) / 2 - 120);
         mainPanel.add(chessboardComponent);
 
         // 设置RestartButton在左下角
-        RestartButton.setLocation(0, HEIGHT - BUTTON_HEIGHT - 40);
+//        RestartButton.setLocation(0, HEIGHT - BUTTON_HEIGHT - 40);
+        RestartButton.setLocation(0, 2*HEIGHT/7);
         mainPanel.add(RestartButton);
 
         // 设置UndoButton在左下角
-        UndoButton.setLocation(WIDTH / 3 - BUTTON_WIDTH / 3, HEIGHT - BUTTON_HEIGHT - 40);
+//        UndoButton.setLocation(WIDTH / 3 - BUTTON_WIDTH / 3, HEIGHT - BUTTON_HEIGHT - 40);
+        UndoButton.setLocation(0, HEIGHT*3/7);
         mainPanel.add(UndoButton);
 
         // 设置SaveButton在右下角
-        SaveButton.setLocation(WIDTH * 2 / 3 - BUTTON_WIDTH * 2 / 3, HEIGHT - BUTTON_HEIGHT - 40);
+//        SaveButton.setLocation(WIDTH * 2 / 3 - BUTTON_WIDTH * 2 / 3, HEIGHT - BUTTON_HEIGHT - 40);
+        SaveButton.setLocation(0, HEIGHT *4/7);
         mainPanel.add(SaveButton);
 
         // 设置LoadButton在右下角
-        LoadButton.setLocation(WIDTH - BUTTON_WIDTH, HEIGHT - BUTTON_HEIGHT - 40);
+//        LoadButton.setLocation(WIDTH - BUTTON_WIDTH, HEIGHT - BUTTON_HEIGHT - 40);
+        LoadButton.setLocation(0, HEIGHT*5/7);
         mainPanel.add(LoadButton);
     }
 
@@ -119,8 +125,9 @@ public class ChessGameFrame extends JFrame {
      * 在游戏面板中添加标签
      */
     private void addLabel() {
-        statusLabel = new RoundLabel("Turn 1: BLUE's turn", getBackground(), 20);
-        statusLabel.setSize(300, BUTTON_HEIGHT);
+        statusLabel = new RoundLabel("Turn 1:BLUE's turn", getBackground(), 20);
+        statusLabel.setSize(280, BUTTON_HEIGHT);
+
         statusLabel.setFont(new Font("Rockwell", Font.BOLD, 20));
         // 居中
         statusLabel.setHorizontalAlignment(JLabel.CENTER);
