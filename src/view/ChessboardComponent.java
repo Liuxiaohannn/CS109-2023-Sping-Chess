@@ -235,7 +235,7 @@ public class ChessboardComponent extends JComponent {
         if (toChessPiece != null) {
             removeChessComponentAtGrid(to);
             if (toChessPiece.getName().equals("Elephant")){
-                setChessComponentAtGrid(to, new ChessComponent(toChessPiece.getOwner(), CHESS_SIZE));
+                setChessComponentAtGrid(to, new ElephantChessComponent(toChessPiece.getOwner(), CHESS_SIZE));
             } else if (toChessPiece.getName().equals("Lion")){
                 setChessComponentAtGrid(to, new LionChessComponent(toChessPiece.getOwner(), CHESS_SIZE));
             } else if (toChessPiece.getName().equals("Tiger")){
@@ -256,7 +256,7 @@ public class ChessboardComponent extends JComponent {
         }
 
         if (fromChessPiece.getName().equals("Elephant")){
-            setChessComponentAtGrid(from, new ChessComponent(fromChessPiece.getOwner(), CHESS_SIZE));
+            setChessComponentAtGrid(from, new ElephantChessComponent(fromChessPiece.getOwner(), CHESS_SIZE));
         } else if (fromChessPiece.getName().equals("Lion")){
             setChessComponentAtGrid(from, new LionChessComponent(fromChessPiece.getOwner(), CHESS_SIZE));
         } else if (fromChessPiece.getName().equals("Tiger")){
