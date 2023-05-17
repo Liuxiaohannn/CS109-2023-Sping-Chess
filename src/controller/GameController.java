@@ -207,6 +207,7 @@ public class GameController implements GameListener {
         //加载过去存档
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(view.getChessGameFrame());
+
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
             try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(file))) {
@@ -220,7 +221,6 @@ public class GameController implements GameListener {
                     swapColor(false);
 //                    try {
 //                        Thread.sleep(250);
-//
 //                        view.paintImmediately(0, 0, view.getWidth(), view.getHeight());
 //                    } catch (InterruptedException e) {
 //                        e.printStackTrace();
@@ -229,8 +229,10 @@ public class GameController implements GameListener {
 
                 this.stepList = stepList;
             } catch (IOException | ClassNotFoundException e) {
+                JOptionPane.showMessageDialog(null,"载入文件错误!","消息提示",JOptionPane.WARNING_MESSAGE);
                 e.printStackTrace();
             }
         }
+
     }
 }
