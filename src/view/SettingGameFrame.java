@@ -28,7 +28,7 @@ public class SettingGameFrame extends JFrame {
   private ChessGameFrame chessGameFrame;
   private ImagePanel mainPanel;
   private MusicThread musicThread;
-  // TODO: 1.登录界面 2.排行榜 3.音量调整 4.背景切换 5.棋盘切换 6.规则介绍
+  private int previousSliderValue;
 
   private RoundLabel mainLabel;
   private RoundButton loginButton;
@@ -74,6 +74,7 @@ public class SettingGameFrame extends JFrame {
     this.WIDTH = width;
     this.HEIGHT = height;
     this.mainGameFrame = mainFrame;
+
     this.server = mainGameFrame.getServer();
     this.user = mainGameFrame.getUser();
     this.musicThread=musicThread;
@@ -270,6 +271,17 @@ public class SettingGameFrame extends JFrame {
     MusicButton = new RoundButton("Music");
     MusicButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     MusicButton.setFont(new Font("Arial", Font.BOLD, 24));
+
+    volumeSlider=new JSlider(JSlider.HORIZONTAL,0,100,50);
+    previousSliderValue = volumeSlider.getValue();
+    volumeSlider.addChangeListener(e -> {
+      int value= volumeSlider.getValue();
+      float volume=value/100.0f;
+      musicThread.setVolume(volume);
+    });
+    float initialVolume = musicThread.getVolume();
+    int initialSliderValue = (int) (initialVolume * 100);
+    volumeSlider.setValue(initialSliderValue);
     if (musicThread.isPlaying){
       playPauseButton=new JButton("Pause");
     }else{
@@ -280,25 +292,31 @@ public class SettingGameFrame extends JFrame {
     playPauseButton.addActionListener(e -> {
       if (musicThread.isPlaying){
         musicThread.pauseMusic();
+        previousSliderValue = volumeSlider.getValue();
+        volumeSlider.setValue(0);
         playPauseButton.setText("Play");
         playPauseButton.repaint();
-//        musicThread.isPlaying =false;
       }else{
         musicThread.playMusic();
+        volumeSlider.setValue(previousSliderValue);
         playPauseButton.setText("Pause");
         playPauseButton.repaint();
-//        musicThread.isPlaying =true;
+        volumeSlider.repaint();
       }
 
     });
+
+
+
 
     MusicButton.addActionListener(e -> {
       JDialog MusicButtonDialog=new JDialog(this, "Music", true);
       MusicButtonDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
       MusicButtonDialog.setSize(300, 200);
       MusicButtonDialog.setLocationRelativeTo(this);
-      JPanel MusicJpanel =new JPanel(new FlowLayout());
+      JPanel MusicJpanel =new JPanel(new GridLayout());
       MusicJpanel.add(playPauseButton);
+      MusicJpanel.add(volumeSlider);
       MusicButtonDialog.add(MusicJpanel, BorderLayout.CENTER);
       MusicButtonDialog.setVisible(true);
     });
