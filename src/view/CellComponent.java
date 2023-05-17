@@ -61,8 +61,11 @@ public class CellComponent extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseExited(MouseEvent e) {
-                resetGridColors();
-                repaint();
+                if(validMove==false){
+                    resetGridColors();
+                    repaint();
+                }
+
             }
         });
     }
@@ -89,6 +92,9 @@ public class CellComponent extends JPanel {
 
     public void setValidMove(boolean validMove) {
         this.validMove = validMove;
+        if(this.validMove==true){
+            this.background=Color.decode("#FFFF00");
+        }
     }
 
 

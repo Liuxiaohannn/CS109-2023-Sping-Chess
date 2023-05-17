@@ -211,6 +211,7 @@ public class ChessboardComponent extends JComponent {
         return gridComponents[point.getRow()][point.getCol()];
     }
 
+
     private ChessboardPoint getChessboardPoint(Point point) {
         System.out.println("[" + point.y/CHESS_SIZE +  ", " +point.x/CHESS_SIZE + "] Clicked");
         return new ChessboardPoint(point.y/CHESS_SIZE, point.x/CHESS_SIZE);
@@ -306,16 +307,19 @@ public class ChessboardComponent extends JComponent {
         for (ChessboardPoint validMove : validMoves) {
             CellComponent cellComponent = getGridComponentAt(validMove);
             cellComponent.setValidMove(true);
-            paintImmediately(this.getBounds());
+
+//           paintImmediately(this.getBounds());
         }
+        repaint();
     }
     public void hideValidMoves(List<ChessboardPoint> validMoves) {
         for (ChessboardPoint validMove : validMoves) {
             CellComponent cellComponent = getGridComponentAt(validMove);
             cellComponent.setValidMove(false);
-
+            cellComponent.resetGridColors();
 //            System.out.println("hide valid move" + validMove);
         }
+        repaint();
     }
     public void showSelectedPoint(ChessboardPoint selectedPoint) {
         CellComponent cellComponent = getGridComponentAt(selectedPoint);
