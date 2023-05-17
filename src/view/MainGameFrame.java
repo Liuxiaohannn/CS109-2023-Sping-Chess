@@ -5,6 +5,7 @@ import controller.GameController;
 import controller.Server;
 import controller.User;
 import model.Chessboard;
+import music.MusicThread;
 import view.UI.ImagePanel;
 import view.UI.RoundButton;
 
@@ -23,13 +24,15 @@ public class MainGameFrame extends JFrame {
   private JButton exitButton;
   private Server server;
   private User user;
+  private MusicThread musicThread;
   private String[] bgPaths = {"/MainBackground.png", "/Midouzi.png", "/Wakuku.jpg", "/Weierlite.png"};
 
-  public MainGameFrame(int width, int height,Server server, User user) {
+  public MainGameFrame(int width, int height,Server server, User user,MusicThread musicThread) {
     this.WIDTH = width;
     this.HEIGHT = height;
     this.server = server;
     this.user = user;
+    this.musicThread=musicThread;
 
 
     initFrame();
@@ -105,7 +108,7 @@ public class MainGameFrame extends JFrame {
     singlePlayerButton.addActionListener(e -> {
       SwingUtilities.invokeLater(() -> {
             dispose();
-            ChessGameFrame chessGameFrame = new ChessGameFrame(1100, 800, server, user);
+            ChessGameFrame chessGameFrame = new ChessGameFrame(1100, 800, server, user,musicThread);
             GameController gameController = new GameController(chessGameFrame.getChessboardComponent(), new Chessboard());
             chessGameFrame.setVisible(true);
             this.dispose();
@@ -114,7 +117,7 @@ public class MainGameFrame extends JFrame {
     multiPlayerButton.addActionListener(e -> {
       SwingUtilities.invokeLater(() -> {
             dispose();
-            ChessGameFrame chessGameFrame = new ChessGameFrame(1100, 800,server, user);
+            ChessGameFrame chessGameFrame = new ChessGameFrame(1100, 800,server, user,musicThread);
             GameController gameController = new GameController(chessGameFrame.getChessboardComponent(), new Chessboard());
             chessGameFrame.setVisible(true);
 
@@ -123,7 +126,7 @@ public class MainGameFrame extends JFrame {
 //    游戏设置，暂时注释掉，等SettingGameFrame 写完
     settingsButton.addActionListener(e -> {
       SwingUtilities.invokeLater(() -> {
-            SettingGameFrame SettingGameFrame = new SettingGameFrame(500, 750, this);
+            SettingGameFrame SettingGameFrame = new SettingGameFrame(500, 750, this,musicThread);
             SettingGameFrame.setVisible(true);
         });
       });

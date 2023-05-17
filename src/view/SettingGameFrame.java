@@ -2,6 +2,7 @@ package view;
 
 import controller.Server;
 import controller.User;
+import music.MusicThread;
 import view.UI.ImagePanel;
 import view.UI.RoundButton;
 import view.UI.RoundLabel;
@@ -26,17 +27,21 @@ public class SettingGameFrame extends JFrame {
   private MainGameFrame mainGameFrame;
   private ChessGameFrame chessGameFrame;
   private ImagePanel mainPanel;
-
+  private MusicThread musicThread;
   // TODO: 1.登录界面 2.排行榜 3.音量调整 4.背景切换 5.棋盘切换 6.规则介绍
 
   private RoundLabel mainLabel;
   private RoundButton loginButton;
   private RoundButton rankButton;
-  private RoundButton volumeButton;
+  private RoundButton MusicButton;
   private RoundButton backgroundButton;
   private RoundButton chessboardButton;
   private RoundButton ruleButton;
   private RoundButton backButton;
+  private JButton playPauseButton;
+  private JSlider volumeSlider;
+  private boolean isPlaying ;
+  private int volume = 50;
 
 //  public SettingGameFrame(int width, int height, JFrame mainFrame) {
 //    setTitle("2023 CS109 Project Demo"); //设置标题
@@ -64,13 +69,14 @@ public class SettingGameFrame extends JFrame {
 //    addBackgroundImage();
 //    setupLayout();
 //  }
-  public SettingGameFrame(int width,int height,MainGameFrame mainFrame){
+  public SettingGameFrame(int width,int height,MainGameFrame mainFrame,MusicThread musicThread){
     setTitle("2023 CS109 Project Demo"); //设置标题
     this.WIDTH = width;
     this.HEIGHT = height;
     this.mainGameFrame = mainFrame;
     this.server = mainGameFrame.getServer();
     this.user = mainGameFrame.getUser();
+    this.musicThread=musicThread;
     setSize(WIDTH, HEIGHT);
     setLocationRelativeTo(null); // Center the window.
 //    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
@@ -82,13 +88,14 @@ public class SettingGameFrame extends JFrame {
     setupLayout();
 
   }
-  public SettingGameFrame(int width,int height,ChessGameFrame chessGameFrame){
+  public SettingGameFrame(int width,int height,ChessGameFrame chessGameFrame,MusicThread musicThread){
     setTitle("2023 CS109 Project Demo"); //设置标题
     this.WIDTH = width;
     this.HEIGHT = height;
     this.chessGameFrame = chessGameFrame;
     this.server = chessGameFrame.getServer();
     this.user = chessGameFrame.getUser();
+    this.musicThread=musicThread;
     setSize(WIDTH, HEIGHT);
     setLocationRelativeTo(null); // Center the window.
 //    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
@@ -111,7 +118,7 @@ public class SettingGameFrame extends JFrame {
     addMainLabel();
     addLoginButton();
     addRankButton();
-    addVolumeButton();
+    addMusicButton();
 //    addBackgroundButton();
     addChessboardButton();
     addRuleButton();
@@ -259,11 +266,56 @@ public class SettingGameFrame extends JFrame {
     dialog.setVisible(true);
   }
 
-  private void addVolumeButton() {
-    volumeButton = new RoundButton("Volume");
-    volumeButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    volumeButton.setFont(new Font("Arial", Font.BOLD, 24));
+  private void addMusicButton() {
+    MusicButton = new RoundButton("Music");
+    MusicButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    MusicButton.setFont(new Font("Arial", Font.BOLD, 24));
+    if (musicThread.isPlaying){
+      playPauseButton=new JButton("Pause");
+    }else{
+      playPauseButton=new JButton("Play");
+    }
+    playPauseButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    playPauseButton.setFont(new Font("Arial", Font.BOLD, 15));
+    playPauseButton.addActionListener(e -> {
+      if (musicThread.isPlaying){
+        musicThread.pauseMusic();
+        playPauseButton.setText("Play");
+        playPauseButton.repaint();
+//        musicThread.isPlaying =false;
+      }else{
+        musicThread.playMusic();
+        playPauseButton.setText("Pause");
+        playPauseButton.repaint();
+//        musicThread.isPlaying =true;
+      }
+
+    });
+
+    MusicButton.addActionListener(e -> {
+      JDialog MusicButtonDialog=new JDialog(this, "Music", true);
+      MusicButtonDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+      MusicButtonDialog.setSize(300, 200);
+      MusicButtonDialog.setLocationRelativeTo(this);
+      JPanel MusicJpanel =new JPanel(new FlowLayout());
+      MusicJpanel.add(playPauseButton);
+      MusicButtonDialog.add(MusicJpanel, BorderLayout.CENTER);
+      MusicButtonDialog.setVisible(true);
+    });
   }
+//  private void togglePlayPause() {
+//    if (musicThread.isPlaying) {
+//      // 暂停音乐播放
+//      musicThread.pauseMusic();
+//      playPauseButton.setText("Play");
+//    } else {
+//      // 播放音乐
+//      musicThread.playMusic();
+//      playPauseButton.setText("Pause");
+//    }
+//    musicThread.isPlaying =!musicThread.isPlaying;
+//  }
+
 
   private void addBackgroundButton(ChessGameFrame chessGameFrame) {
     backgroundButton = new RoundButton("Background");
@@ -474,7 +526,7 @@ private void addBackgroundButton(MainGameFrame mainFrame) {
     mainPanel.add(mainLabel);
     mainPanel.add(loginButton);
     mainPanel.add(rankButton);
-    mainPanel.add(volumeButton);
+    mainPanel.add(MusicButton);
     mainPanel.add(backgroundButton);
     mainPanel.add(chessboardButton);
     mainPanel.add(ruleButton);
@@ -483,7 +535,7 @@ private void addBackgroundButton(MainGameFrame mainFrame) {
     mainLabel.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50);
     loginButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + BUTTON_HEIGHT + 35);
     rankButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 2 * (BUTTON_HEIGHT + 35));
-    volumeButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 3 * (BUTTON_HEIGHT + 35));
+    MusicButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 3 * (BUTTON_HEIGHT + 35));
     backgroundButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 4 * (BUTTON_HEIGHT + 35));
     chessboardButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 5 * (BUTTON_HEIGHT + 35));
     ruleButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 6 * (BUTTON_HEIGHT + 35));

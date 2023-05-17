@@ -6,20 +6,23 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import java.net.URL;
 
-public class MusicThread implements Runnable {
+public class MusicThread extends Thread implements Runnable {
   private URL musicPath;
   private boolean isLoop;
   private FloatControl gainControl;
+  public boolean isPlaying;
+  private Clip clip;
 
-  public MusicThread(URL musicPath, boolean isLoop) {
+  public MusicThread(URL musicPath, boolean isLoop,boolean isPlaying) {
     this.musicPath = musicPath;
     this.isLoop = isLoop;
+    this.isPlaying=isPlaying;
   }
 
   @Override
   public void run() {
     try {
-      Clip clip = AudioSystem.getClip();
+       clip = AudioSystem.getClip();
       AudioInputStream ais = AudioSystem.getAudioInputStream(musicPath);
       clip.open(ais);
 
@@ -33,6 +36,23 @@ public class MusicThread implements Runnable {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+  public void playMusic() {
+//    if (!isPlaying) {
+      isPlaying = true;
+      if (clip != null) {
+        clip.start();
+      }
+
+  }
+
+  public void pauseMusic() {
+//    if (isPlaying) {
+      isPlaying = false;
+      if (clip != null && clip.isRunning()) {
+        clip.stop();
+      }
+
   }
 
   public void setVolume(float volume) {
