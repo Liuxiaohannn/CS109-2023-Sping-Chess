@@ -3,7 +3,6 @@ package view;
 
 import controller.GameController;
 import model.*;
-import view.animalChessComponent.*;
 
 import javax.swing.*;
 import java.awt.*;
