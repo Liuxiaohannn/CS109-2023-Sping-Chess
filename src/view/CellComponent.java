@@ -91,6 +91,7 @@ public class CellComponent extends JPanel {
         this.validMove = validMove;
     }
 
+
     public void setHovered(boolean hovered) {
         this.hovered = hovered;
     }

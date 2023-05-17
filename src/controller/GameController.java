@@ -27,6 +27,14 @@ public class GameController implements GameListener {
 
     private PlayerColor currentPlayer;
     private int turnCount = 1;
+
+    public void setTurnCount(int turnCount) {
+        this.turnCount = turnCount;
+    }
+    public int getTurnCount(){
+        return turnCount;
+    }
+
     // Record whether there is a selected piece before
     private ChessboardPoint selectedPoint;
     private PlayerColor winner;
@@ -85,18 +93,12 @@ public class GameController implements GameListener {
     public void onPlayerClickCell(ChessboardPoint point, CellComponent component) {
         if (selectedPoint != null && model.isValidMove(selectedPoint, point)) {
             hideValidMoves();
-
             Step step = model.recordStep(selectedPoint, point, currentPlayer, turnCount);
             stepList.add(step);
-
             //如果是进入陷阱格子，降低棋子的等级至0
             model.solveTrap(selectedPoint, point);
-
-
-
             model.moveChessPiece(selectedPoint, point);
             view.setChessComponentAtGrid(point, view.removeChessComponentAtGrid(selectedPoint));
-
             //如果是进入巢穴格子，结束游戏
             if (model.solveDens(point)) {
                 densWin();
@@ -104,6 +106,7 @@ public class GameController implements GameListener {
 
             selectedPoint = null;
             swapColor(false);
+            view.getChessGameFrame().updateStatus(String.format("Turn %d: %s's turn",getTurnCount(),currentPlayer));
             view.repaint();
 
         }
@@ -144,6 +147,7 @@ public class GameController implements GameListener {
 
             selectedPoint = null;
             swapColor(false);
+            view.getChessGameFrame().updateStatus(String.format("Turn %d: %s's turn",getTurnCount(),currentPlayer));
             view.repaint();
 
         }
@@ -181,6 +185,7 @@ public class GameController implements GameListener {
         view.undoStep(step);
         view.repaint();
         swapColor(true);
+        view.getChessGameFrame().updateStatus(String.format("Turn %d: %s's turn",getTurnCount(),currentPlayer));
 
     }
 

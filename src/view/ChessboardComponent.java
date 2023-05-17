@@ -313,6 +313,7 @@ public class ChessboardComponent extends JComponent {
         for (ChessboardPoint validMove : validMoves) {
             CellComponent cellComponent = getGridComponentAt(validMove);
             cellComponent.setValidMove(false);
+
 //            System.out.println("hide valid move" + validMove);
         }
     }
