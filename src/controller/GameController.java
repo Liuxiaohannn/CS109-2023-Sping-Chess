@@ -24,6 +24,8 @@ import java.util.List;
 public class GameController implements GameListener {
     private Chessboard model;
     private ChessboardComponent view;
+    private GameMode gameMode;
+    private AiPlayer aiPlayer;
 
     private PlayerColor currentPlayer;
     private int turnCount = 1;
@@ -42,18 +44,25 @@ public class GameController implements GameListener {
     private List<ChessboardPoint> validMoves;
 
 
-    public GameController(ChessboardComponent view, Chessboard model) {
+    public GameController(ChessboardComponent view, Chessboard model,GameMode gameMode) {
+
         stepList = new LinkedList<>();
         validMoves = new ArrayList<>();
 
         this.view = view;
         this.model = model;
+        this.gameMode = gameMode;
         this.currentPlayer = PlayerColor.BLUE;
+
 
         view.registerController(this);
         initialize();
         view.initiateChessComponent(model);
         view.repaint();
+
+        if (gameMode == GameMode.AI_1 || gameMode == GameMode.AI_2){
+            aiPlayer = new AiPlayer(gameMode,model);
+        }
     }
 
 
@@ -108,7 +117,7 @@ public class GameController implements GameListener {
             swapColor(false);
             view.getChessGameFrame().updateStatus(String.format("Turn %d: %s's turn",getTurnCount(),currentPlayer));
             view.repaint();
-
+            aiMove();
         }
     }
 
@@ -149,7 +158,7 @@ public class GameController implements GameListener {
             swapColor(false);
             view.getChessGameFrame().updateStatus(String.format("Turn %d: %s's turn",getTurnCount(),currentPlayer));
             view.repaint();
-
+            aiMove();
         }
     }
 
@@ -187,6 +196,13 @@ public class GameController implements GameListener {
         swapColor(true);
         view.getChessGameFrame().updateStatus(String.format("Turn %d: %s's turn",getTurnCount(),currentPlayer));
 
+        if (gameMode == GameMode.AI_1 || gameMode == GameMode.AI_2 ) {
+            step = stepList.remove(stepList.size() - 1);
+            model.undoStep(step);
+            view.undoStep(step);
+            view.repaint();
+            swapColor(true);
+        }
     }
 
     public void save() {
@@ -226,7 +242,7 @@ public class GameController implements GameListener {
 //                        e.printStackTrace();
 //                    }
                 }
-
+                aiMove();
                 this.stepList = stepList;
             } catch (IOException | ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(null,"载入文件错误!","消息提示",JOptionPane.WARNING_MESSAGE);
@@ -234,5 +250,52 @@ public class GameController implements GameListener {
             }
         }
 
+    }
+    private void aiMove() {
+        if (aiPlayer != null && currentPlayer != PlayerColor.BLUE) {
+            Step aiStep = aiPlayer.generateMove(currentPlayer);
+            if (aiStep != null) {
+                view.setAIPlaying(true);
+                selectedPoint = aiStep.getFrom();
+                view.showSelectedPoint(selectedPoint);
+
+                Timer timer1 = new Timer(1000, e -> {
+                    view.hideSelectedPoint(selectedPoint);
+                    showValidMoves(selectedPoint);
+                });
+
+                timer1.setRepeats(false);
+                timer1.start();
+
+                // 使用javax.swing.Timer创建一个定时器
+                Timer timer2 = new Timer(2000, e -> {
+                    hideValidMoves();
+                    selectedPoint = null;
+
+                    stepList.add(aiStep);
+
+                    // 如果是进入陷阱格子，降低棋子的等级至0
+                    model.solveTrap(aiStep.getFrom(), aiStep.getTo());
+
+                    model.runStep(aiStep);
+                    view.runStep(aiStep);
+                    view.repaint();
+
+                    // 检查是否赢了
+                    if (model.solveDens(aiStep.getTo())) {
+                        densWin();
+                    } else {
+                        annihilateWin();
+                    }
+
+                    swapColor(false);
+                    view.setAIPlaying(false);
+                });
+
+                // 设置定时器只执行一次
+                timer2.setRepeats(false);
+                timer2.start();
+            }
+        }
     }
 }

@@ -95,9 +95,7 @@ class DogChessComponent extends ChessComponent{
 
     public ElephantChessComponent(PlayerColor owner, int size) {
         super(owner, size);
-
         gifImage = new ImageIcon(getClass().getResource("/Animal picture/Elephant/StompingElephantIdleSide.gif"));
-
     }
 
 

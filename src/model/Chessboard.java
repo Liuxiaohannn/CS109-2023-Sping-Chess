@@ -387,6 +387,17 @@ public class Chessboard {
         }
         return availablePoints;
     }
+    public List<Step> getValidSteps(PlayerColor color){
+        List<Step> availableSteps = new ArrayList<>();
+        List<ChessboardPoint> availablePoints = getValidPoints(color);
+        for (ChessboardPoint point : availablePoints) {
+            List<ChessboardPoint> validMoves = getValidMoves(point);
+            for (ChessboardPoint destPoint : validMoves) {
+                availableSteps.add(recordStep(point, destPoint, color, 0));
+            }
+        }
+        return availableSteps;
+    }
 //    public List<Step> getValidSteps(PlayerColor color){
 //        List<Step> availableSteps = new ArrayList<>();
 //        List<ChessboardPoint> availablePoints = getValidPoints(color);
