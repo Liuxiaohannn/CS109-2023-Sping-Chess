@@ -1,17 +1,14 @@
 package model;
 import view.GridType;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class store the real chess information.
  * The Chessboard has 9*7 cells, and each cell has a position for chess
  */
 public class Chessboard {
-    private Cell[][] grid;
+    private final Cell[][] grid;
     private final Set<ChessboardPoint> riverCell = new HashSet<>();
     private final Set<ChessboardPoint> trapCell = new HashSet<>();
     private final Set<ChessboardPoint> densCell = new HashSet<>();
@@ -150,7 +147,7 @@ public class Chessboard {
         }
         // 老鼠能游泳
         if (getGridAt(dest).getType() == GridType.RIVER) {
-            if (getChessPieceAt(src).getName() != "Rat") {
+            if (!Objects.equals(getChessPieceAt(src).getName(), "Rat")) {
                 return false;
             } else {
                 return calculateDistance(src, dest) == 1;
@@ -158,7 +155,7 @@ public class Chessboard {
         }
         // 狮子和虎可以跳过河
         if (calculateDistance(src, dest) > 1
-                && (getChessPieceAt(src).getName() == "Lion" || getChessPieceAt(src).getName() == "Tiger")) {
+                && (Objects.equals(getChessPieceAt(src).getName(), "Lion") || Objects.equals(getChessPieceAt(src).getName(), "Tiger"))) {
             // 检查两个格子是否在同一行或者同一列
             if (src.getRow() != dest.getRow() && src.getCol() != dest.getCol()) {
                 return false;
@@ -223,7 +220,7 @@ public class Chessboard {
         }
         // 狮子和虎可以跳过河来捕获
         if (calculateDistance(src, dest) > 1
-                && (srcPiece.getName() == "Lion" || srcPiece.getName() == "Tiger")) {
+                && (Objects.equals(srcPiece.getName(), "Lion") || Objects.equals(srcPiece.getName(), "Tiger"))) {
             // 检查两个格子是否在同一行或者同一列
             if (src.getRow() != dest.getRow() && src.getCol() != dest.getCol()) {
                 return false;
@@ -299,45 +296,25 @@ public class Chessboard {
 
     public void exitTrap(ChessboardPoint point) {
         switch (getGridAt(point).getPiece().getName()) {
-            case "Rat":
-                getGridAt(point).getPiece().setRank(1);
-                break;
-            case "Cat":
-                getGridAt(point).getPiece().setRank(2);
-                break;
-            case "Dog":
-                getGridAt(point).getPiece().setRank(3);
-                break;
-            case "Wolf":
-                getGridAt(point).getPiece().setRank(4);
-                break;
-            case "Leopard":
-                getGridAt(point).getPiece().setRank(5);
-                break;
-            case "Tiger":
-                getGridAt(point).getPiece().setRank(6);
-                break;
-            case "Lion":
-                getGridAt(point).getPiece().setRank(7);
-                break;
-            case "Elephant":
-                getGridAt(point).getPiece().setRank(8);
-                break;
+            case "Rat" -> getGridAt(point).getPiece().setRank(1);
+            case "Cat" -> getGridAt(point).getPiece().setRank(2);
+            case "Dog" -> getGridAt(point).getPiece().setRank(3);
+            case "Wolf" -> getGridAt(point).getPiece().setRank(4);
+            case "Leopard" -> getGridAt(point).getPiece().setRank(5);
+            case "Tiger" -> getGridAt(point).getPiece().setRank(6);
+            case "Lion" -> getGridAt(point).getPiece().setRank(7);
+            case "Elephant" -> getGridAt(point).getPiece().setRank(8);
         }
     }
 
     public boolean solveDens(ChessboardPoint destPoint) {
-        if (getGridAt(destPoint).getType() == GridType.DENS) {
-            return true;
-        }
-        return false;
+        return getGridAt(destPoint).getType() == GridType.DENS;
     }
     public Step recordStep(ChessboardPoint fromPoint, ChessboardPoint toPoint, PlayerColor currentPlayer, int turn){
         ChessPiece fromPiece = getChessPieceAt(fromPoint);
         ChessPiece toPiece = getChessPieceAt(toPoint);
-        Step step = new Step(fromPoint, toPoint, fromPiece, toPiece, currentPlayer, turn);
-//        System.out.println(step);
-        return step;
+        //        System.out.println(step);
+        return new Step(fromPoint, toPoint, fromPiece, toPiece, currentPlayer, turn);
     }
     //悔棋返回上一步
     public void undoStep(Step step){
@@ -345,11 +322,7 @@ public class Chessboard {
         ChessboardPoint toPoint = step.getTo();
         ChessPiece fromPiece = step.getFromChessPiece();
         ChessPiece toPiece = step.getToChessPiece();
-        if (toPiece != null) {
-            setChessPiece(toPoint, toPiece);
-        } else {
-            setChessPiece(toPoint, null);
-        }
+        setChessPiece(toPoint, toPiece);
         setChessPiece(fromPoint, fromPiece);
     }
     //用于执行step中存储的行为
@@ -375,99 +348,4 @@ public class Chessboard {
         return availablePoints;
     }
 
-    public List<ChessboardPoint> getValidPoints(PlayerColor color) {
-        List<ChessboardPoint> availablePoints = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 7; j++) {
-                ChessboardPoint point = new ChessboardPoint(i, j);
-                if (getChessPieceAt(point) != null && getChessPieceAt(point).getOwner() == color) {
-                    availablePoints.add(point);
-                }
-            }
-        }
-        return availablePoints;
-    }
-//    public List<Step> getValidSteps(PlayerColor color){
-//        List<Step> availableSteps = new ArrayList<>();
-//        List<ChessboardPoint> availablePoints = getValidPoints(color);
-//        for (ChessboardPoint point : availablePoints) {
-//            List<ChessboardPoint> validMoves = getValidMoves(point);
-//            for (ChessboardPoint destPoint : validMoves) {
-//                availableSteps.add(recordStep(point, destPoint, color, 0));
-//            }
-//        }
-//        return availableSteps;
-//    }
-//
-//    public List<Step> getValidStepsWithValue(PlayerColor color){
-//        List<Step> availableSteps = new ArrayList<>();
-//        List<ChessboardPoint> availablePoints = getValidPoints(color);
-//        for (ChessboardPoint point : availablePoints) {
-//            List<ChessboardPoint> validMoves = getValidMoves(point);
-//            for (ChessboardPoint destPoint : validMoves) {
-//                Step step = recordStep(point, destPoint, color, 0);
-//                //越接近敌方基地，价值越高
-//                if (color == PlayerColor.RED) {
-//                    step.setValue(destPoint.getRow() - point.getRow() + Math.abs(3 - point.getCol()) - Math.abs(3 - destPoint.getCol()));
-//                } else {
-//                    step.setValue(point.getRow() - destPoint.getRow() + Math.abs(3 - point.getCol()) - Math.abs(3 - destPoint.getCol()));
-//                }
-//                if (getChessPieceAt(destPoint) != null) {
-//                    step.setValue(step.getValue() + (int) Math.pow(getChessPieceAt(destPoint).getRank(),2));
-//                }
-//                if (getGridAt(destPoint).getType() == GridType.DENS && getGridAt(destPoint).getOwner() != color) {
-//                    step.setValue(10000);
-//                }
-//                if (getGridAt(destPoint).getType() == GridType.TRAP && getGridAt(destPoint).getOwner() != color) {
-//                    //检查周围是否有敌人
-//                    if (getChessPieceAt(destPoint) != null) {
-//                        step.setValue((int) Math.pow(getChessPieceAt(destPoint).getRank(),2));
-//                    } else {
-//                        boolean hasEnemy = false;
-//                        for (int k = 0; k < 4; k++) {
-//                            ChessboardPoint neighborPoint = destPoint.getNeighbor(k);
-//                            if (neighborPoint.getRow()<0 || neighborPoint.getRow()>8 || neighborPoint.getCol()<0 || neighborPoint.getCol()>6) {
-//                                continue;
-//                            }
-//                            if (getChessPieceAt(neighborPoint) != null && getChessPieceAt(neighborPoint).getOwner() != color) {
-//                                step.setValue(-1);
-//                                hasEnemy = true;
-//                                break;
-//                            }
-//                        }
-//                        if (!hasEnemy) {
-//                            step.setValue(10000);
-//                        }
-//                    }
-//                }
-//                availableSteps.add(step);
-//            }
-//        }
-//        return availableSteps;
-//    }
-//
-//    public void moveMusic(ChessboardPoint point){
-//        ChessPiece chessPiece = getChessPieceAt(point);
-//        MusicThread musicThread = null;
-//
-//        if (chessPiece.getName().equals("Rat")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Moiuse squeal 2.wav"), false);
-//        } else if (chessPiece.getName().equals("Cat")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Cat meow 5.wav"), false);
-//        } else if (chessPiece.getName().equals("Dog")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Dog bark 3.wav"), false);
-//        } else if (chessPiece.getName().equals("Wolf")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Wolf barks 1.wav"), false);
-//        } else if (chessPiece.getName().equals("Leopard")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Lion roar 3.wav"), false);
-//        } else if (chessPiece.getName().equals("Tiger")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Tiger attack 1.wav"), false);
-//        } else if (chessPiece.getName().equals("Lion")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Lion atacks, bites 5.wav"), false);
-//        } else if (chessPiece.getName().equals("Elephant")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Elephant Trumpeting 1.wav"), false);
-//        }
-//        Thread music = new Thread(musicThread);
-//        music.start();
-//}
 }

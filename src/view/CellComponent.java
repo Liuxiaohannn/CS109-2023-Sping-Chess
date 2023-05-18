@@ -5,16 +5,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 public class CellComponent extends JPanel {
     private Color background;
-    private Color validMoveColor = Color.decode("#FBFFB1");
+
     private GridType gridType;
-    private BufferedImage image;
+
     private boolean validMove;
     private boolean hovered;
-    private int cornerRadius;
+
 
     // Add this member variable to the CellComponent class
 
@@ -23,24 +22,26 @@ public class CellComponent extends JPanel {
         setLayout(new GridLayout(1, 1));
         setLocation(location);
         setSize(size, size);
-        cornerRadius = size / 4;
+
         this.gridType = gridType;
 
         // Load the image based on the background color
-//        try {
-        if (gridType.equals(GridType.RIVER)) {
-            this.background = Color.decode("#57C5B6");
-        } else if (gridType.equals(GridType.LAND)) {
-            this.background = Color.decode("#A9907E");
-        } else if (gridType.equals(GridType.TRAP)) {
-            this.background = Color.decode("#7AA874");
-        } else if (gridType.equals(GridType.DENS)) {
-            this.background = Color.decode("#D14D72");
+
+        switch (gridType) {
+            case RIVER:
+                this.background = Color.cyan;
+                break;
+            case LAND:
+                this.background = Color.decode("#EBC79E");
+                break;
+            case TRAP:
+                this.background = Color.pink;
+                break;
+            case DENS:
+                this.background = Color.RED;
+                break;
         }
 
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 
         // Add mouse listener to this cell component
         addMouseListener(new MouseAdapter() {
@@ -80,13 +81,13 @@ public class CellComponent extends JPanel {
     }
     public void resetGridColors(){
         if (gridType.equals(GridType.RIVER)) {
-            this.background = Color.decode("#57C5B6");
+            this.background = Color.cyan;
         } else if (gridType.equals(GridType.LAND)) {
-            this.background = Color.decode("#A9907E");
+            this.background = Color.decode("#EBC79E");
         } else if (gridType.equals(GridType.TRAP)) {
-            this.background = Color.decode("#7AA874");
+            this.background = Color.pink;
         } else if (gridType.equals(GridType.DENS)) {
-            this.background = Color.decode("#D14D72");
+            this.background = Color.RED;
         }
     }
 

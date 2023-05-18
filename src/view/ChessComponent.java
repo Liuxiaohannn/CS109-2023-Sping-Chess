@@ -58,7 +58,7 @@ class CatChessComponent extends ChessComponent{
     private ImageIcon gifImage;
     public CatChessComponent(PlayerColor owner, int size) {
         super(owner, size);
-        gifImage = new ImageIcon(getClass().getResource("/Animal picture/Cat/MeowingCatIdleSide.gif"));
+        gifImage = new ImageIcon(getClass().getResource("/NewPicture/NewCat.png"));
     }
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -76,7 +76,7 @@ class DogChessComponent extends ChessComponent{
     public DogChessComponent(PlayerColor owner, int size) {
         super(owner, size);
 
-        gifImage = new ImageIcon(getClass().getResource("/Animal picture/Dog/FaithfulDogIdleSide.gif"));
+        gifImage = new ImageIcon(getClass().getResource("/NewPicture/NewDog.png"));
 
     }
 
@@ -96,7 +96,7 @@ class DogChessComponent extends ChessComponent{
     public ElephantChessComponent(PlayerColor owner, int size) {
         super(owner, size);
 
-        gifImage = new ImageIcon(getClass().getResource("/Animal picture/Elephant/StompingElephantIdleSide.gif"));
+        gifImage = new ImageIcon(getClass().getResource("/NewPicture/NewElephant.png"));
 
     }
 
@@ -116,7 +116,7 @@ class LeopardChessComponent extends ChessComponent {
 
     public LeopardChessComponent(PlayerColor owner, int size) {
         super(owner, size);
-        gifImage = new ImageIcon(getClass().getResource("/Animal picture/Leopard(Camel)/ThirstyCamelIdleSide.gif"));
+        gifImage = new ImageIcon(getClass().getResource("/NewPicture/NewLeopard.png"));
     }
 
     protected void paintComponent(Graphics g) {
@@ -133,7 +133,7 @@ class LionChessComponent extends ChessComponent {
 
     public LionChessComponent(PlayerColor owner, int size) {
         super(owner, size);
-        gifImage = new ImageIcon(getClass().getResource("/Animal picture/Lion(Moose)/MajesticMooseIdleSide.gif"));
+        gifImage = new ImageIcon(getClass().getResource("/NewPicture/NewLion.png"));
     }
 
     protected void paintComponent(Graphics g) {
@@ -150,7 +150,7 @@ class RatChessComponent extends ChessComponent {
 
     public RatChessComponent(PlayerColor owner, int size) {
         super(owner, size);
-        gifImage = new ImageIcon(getClass().getResource("/Animal picture/Mouse(Skunk)/StinkySkunkIdleSide.gif"));
+        gifImage = new ImageIcon(getClass().getResource("/NewPicture/NewMouse.png"));
     }
 
     protected void paintComponent(Graphics g) {
@@ -168,7 +168,7 @@ class TigerChessComponent extends ChessComponent {
 
     public TigerChessComponent(PlayerColor owner, int size) {
         super(owner, size);
-        gifImage = new ImageIcon(getClass().getResource("/Animal picture/Tiger( Bear)/CaveBearIdleSide.gif"));
+        gifImage = new ImageIcon(getClass().getResource("/NewPicture/NewTiger.png"));
     }
 
     protected void paintComponent(Graphics g) {
@@ -186,7 +186,7 @@ class WolfChessComponent extends ChessComponent {
 
     public WolfChessComponent(PlayerColor owner, int size) {
         super(owner, size);
-        gifImage = new ImageIcon(getClass().getResource("/Animal picture/Wolf/TimberWolfIdleSide.gif"));
+        gifImage = new ImageIcon(getClass().getResource("/NewPicture/NewWolf.png"));
     }
 
     protected void paintComponent(Graphics g) {

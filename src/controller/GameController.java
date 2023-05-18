@@ -217,14 +217,9 @@ public class GameController implements GameListener {
                     model.runStep(step);
                     view.runStep(step);
                     view.revalidate();
+                    view.getChessGameFrame().updateStatus(String.format("Turn %d: %s's turn",step.getTurnCount()+1,currentPlayer));
                     view.repaint();
                     swapColor(false);
-//                    try {
-//                        Thread.sleep(250);
-//                        view.paintImmediately(0, 0, view.getWidth(), view.getHeight());
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
                 }
 
                 this.stepList = stepList;

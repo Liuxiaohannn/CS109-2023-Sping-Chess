@@ -169,22 +169,6 @@ public class ChessboardComponent extends JComponent {
                 }
                 this.add(cell);
                 gridComponents[i][j] = cell;
-
-//                cell.setHoverListener(new HoverListener() {
-//                    @Override
-//                    public void onHovered(CellComponent cellComponent) {
-//                        // Handle hover event here
-//                        cell.setHovered(true);
-//                        repaint();
-//                    }
-//
-//                    @Override
-//                    public void onExited(CellComponent cellComponent) {
-//                        // Handle exit event here
-//                        cell.setHovered(false);
-//                        repaint();
-//                    }
-//                });
             }
         }
     }

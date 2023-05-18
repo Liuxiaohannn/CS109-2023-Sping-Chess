@@ -24,18 +24,13 @@ public class ChessboardPoint implements Serializable {
     }
 
     public ChessboardPoint getNeighbor(int k){
-        switch (k) {
-            case 0:
-                return new ChessboardPoint(row - 1, col);
-            case 1:
-                return new ChessboardPoint(row, col + 1);
-            case 2:
-                return new ChessboardPoint(row + 1, col);
-            case 3:
-                return new ChessboardPoint(row, col - 1);
-            default:
-                return null;
-        }
+        return switch (k) {
+            case 0 -> new ChessboardPoint(row - 1, col);
+            case 1 -> new ChessboardPoint(row, col + 1);
+            case 2 -> new ChessboardPoint(row + 1, col);
+            case 3 -> new ChessboardPoint(row, col - 1);
+            default -> null;
+        };
     }
 
     @Override
