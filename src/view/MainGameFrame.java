@@ -2,6 +2,7 @@ package view;
 
 import controller.GameController;
 
+import controller.GameMode;
 import controller.Server;
 import controller.User;
 import model.Chessboard;
@@ -109,7 +110,7 @@ public class MainGameFrame extends JFrame {
       SwingUtilities.invokeLater(() -> {
             dispose();
             ChessGameFrame chessGameFrame = new ChessGameFrame(1100, 800, server, user,musicThread);
-            GameController gameController = new GameController(chessGameFrame.getChessboardComponent(), new Chessboard());
+            GameController gameController = new GameController(chessGameFrame.getChessboardComponent(), new Chessboard(), GameMode.AI_1);
             chessGameFrame.setVisible(true);
             this.dispose();
         });
@@ -118,7 +119,7 @@ public class MainGameFrame extends JFrame {
       SwingUtilities.invokeLater(() -> {
             dispose();
             ChessGameFrame chessGameFrame = new ChessGameFrame(1100, 800,server, user,musicThread);
-            GameController gameController = new GameController(chessGameFrame.getChessboardComponent(), new Chessboard());
+            GameController gameController = new GameController(chessGameFrame.getChessboardComponent(), new Chessboard(),GameMode.PLAYER);
             chessGameFrame.setVisible(true);
 
         });

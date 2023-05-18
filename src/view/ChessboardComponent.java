@@ -27,6 +27,7 @@ public class ChessboardComponent extends JComponent {
     private final Set<ChessboardPoint> densCell = new HashSet<>();
 
     private GameController gameController;
+    private boolean isAIPlaying = false;
 
     public ChessboardComponent(int chessSize, ChessGameFrame chessGameFrame) {
         this.chessGameFrame = chessGameFrame;
@@ -334,6 +335,12 @@ public class ChessboardComponent extends JComponent {
             }
         }
 
+    }
+    public boolean isAIPlaying() {
+        return isAIPlaying;
+    }
+    public void setAIPlaying(boolean AIPlaying) {
+        isAIPlaying = AIPlaying;
     }
     public GameController getGameController() {
         return gameController;
