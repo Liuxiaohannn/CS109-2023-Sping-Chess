@@ -104,11 +104,11 @@ public class Chessboard {
     }
 
     private Cell getGridAt(ChessboardPoint point) {
-        return grid[point.getRow()][point.getCol()];
+        return grid[point.row()][point.col()];
     }
 
     private int calculateDistance(ChessboardPoint src, ChessboardPoint dest) {
-        return Math.abs(src.getRow() - dest.getRow()) + Math.abs(src.getCol() - dest.getCol());
+        return Math.abs(src.row() - dest.row()) + Math.abs(src.col() - dest.col());
     }
 
     private ChessPiece removeChessPiece(ChessboardPoint point) {
@@ -157,34 +157,34 @@ public class Chessboard {
         if (calculateDistance(src, dest) > 1
                 && (Objects.equals(getChessPieceAt(src).getName(), "Lion") || Objects.equals(getChessPieceAt(src).getName(), "Tiger"))) {
             // 检查两个格子是否在同一行或者同一列
-            if (src.getRow() != dest.getRow() && src.getCol() != dest.getCol()) {
+            if (src.row() != dest.row() && src.col() != dest.col()) {
                 return false;
             }
             // 检查两个格子之间是否全为RIVER，如果是，则可以移动，否则不可以移动
-            if (src.getRow() == dest.getRow()) {
-                int step = src.getCol() < dest.getCol() ? 1 : -1;
-                int col = src.getCol() + step;
-                while (col != dest.getCol()) {
-                    if (getGridAt(new ChessboardPoint(src.getRow(), col)).getType() != GridType.RIVER) {
+            if (src.row() == dest.row()) {
+                int step = src.col() < dest.col() ? 1 : -1;
+                int col = src.col() + step;
+                while (col != dest.col()) {
+                    if (getGridAt(new ChessboardPoint(src.row(), col)).getType() != GridType.RIVER) {
                         return false;
                     }
                     // 检查河流格子上是否有棋子
-                    if (getChessPieceAt(new ChessboardPoint(src.getRow(), col)) != null) {
+                    if (getChessPieceAt(new ChessboardPoint(src.row(), col)) != null) {
                         return false;
                     }
                     col += step;
                 }
                 return true;
             }
-            if (src.getCol() == dest.getCol()) {
-                int step = src.getRow() < dest.getRow() ? 1 : -1;
-                int row = src.getRow() + step;
-                while (row != dest.getRow()) {
-                    if (getGridAt(new ChessboardPoint(row, src.getCol())).getType() != GridType.RIVER) {
+            if (src.col() == dest.col()) {
+                int step = src.row() < dest.row() ? 1 : -1;
+                int row = src.row() + step;
+                while (row != dest.row()) {
+                    if (getGridAt(new ChessboardPoint(row, src.col())).getType() != GridType.RIVER) {
                         return false;
                     }
                     // 检查河流格子上是否有棋子
-                    if (getChessPieceAt(new ChessboardPoint(row, src.getCol())) != null) {
+                    if (getChessPieceAt(new ChessboardPoint(row, src.col())) != null) {
                         return false;
                     }
                     row += step;
@@ -222,34 +222,34 @@ public class Chessboard {
         if (calculateDistance(src, dest) > 1
                 && (Objects.equals(srcPiece.getName(), "Lion") || Objects.equals(srcPiece.getName(), "Tiger"))) {
             // 检查两个格子是否在同一行或者同一列
-            if (src.getRow() != dest.getRow() && src.getCol() != dest.getCol()) {
+            if (src.row() != dest.row() && src.col() != dest.col()) {
                 return false;
             }
             // 检查两个格子之间是否全为RIVER，如果是，则可以移动，否则不可以移动
-            if (src.getRow() == dest.getRow()) {
-                int step = src.getCol() < dest.getCol() ? 1 : -1;
-                int col = src.getCol() + step;
-                while (col != dest.getCol()) {
-                    if (getGridAt(new ChessboardPoint(src.getRow(), col)).getType() != GridType.RIVER) {
+            if (src.row() == dest.row()) {
+                int step = src.col() < dest.col() ? 1 : -1;
+                int col = src.col() + step;
+                while (col != dest.col()) {
+                    if (getGridAt(new ChessboardPoint(src.row(), col)).getType() != GridType.RIVER) {
                         return false;
                     }
                     // 检查河流格子上是否有棋子
-                    if (getChessPieceAt(new ChessboardPoint(src.getRow(), col)) != null) {
+                    if (getChessPieceAt(new ChessboardPoint(src.row(), col)) != null) {
                         return false;
                     }
                     col += step;
                 }
                 return srcPiece.canCapture(destPiece);
             }
-            if (src.getCol() == dest.getCol()) {
-                int step = src.getRow() < dest.getRow() ? 1 : -1;
-                int row = src.getRow() + step;
-                while (row != dest.getRow()) {
-                    if (getGridAt(new ChessboardPoint(row, src.getCol())).getType() != GridType.RIVER) {
+            if (src.col() == dest.col()) {
+                int step = src.row() < dest.row() ? 1 : -1;
+                int row = src.row() + step;
+                while (row != dest.row()) {
+                    if (getGridAt(new ChessboardPoint(row, src.col())).getType() != GridType.RIVER) {
                         return false;
                     }
                     // 检查河流格子上是否有棋子
-                    if (getChessPieceAt(new ChessboardPoint(row, src.getCol())) != null) {
+                    if (getChessPieceAt(new ChessboardPoint(row, src.col())) != null) {
                         return false;
                     }
                     row += step;
@@ -276,7 +276,7 @@ public class Chessboard {
                     // 检查敌方棋子周围是否全是己方等级更高的棋子
                     for (int k = 0; k < 4; k++) {
                         ChessboardPoint neighbor = point.getNeighbor(k);
-                        if (neighbor.getRow()<0 || neighbor.getRow()>8 || neighbor.getCol()<0 || neighbor.getCol()>6) {
+                        if (neighbor.row()<0 || neighbor.row()>8 || neighbor.col()<0 || neighbor.col()>6) {
                             continue;
                         }
                         if (getChessPieceAt(neighbor) == null || (getChessPieceAt(neighbor).getOwner() == currentPlayer
