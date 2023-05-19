@@ -1,9 +1,7 @@
 package view;
 
 import controller.GameController;
-
 import controller.GameMode;
-import controller.Server;
 import controller.User;
 import model.Chessboard;
 import music.MusicThread;
@@ -23,15 +21,15 @@ public class MainGameFrame extends JFrame {
   private JButton multiPlayerButton;
   private JButton settingsButton;
   private JButton exitButton;
-  private Server server;
+
   private User user;
   private MusicThread musicThread;
   private String[] bgPaths = {"/MainBackground.png", "/Midouzi.png", "/Wakuku.jpg", "/Weierlite.png"};
 
-  public MainGameFrame(int width, int height,Server server, User user,MusicThread musicThread) {
+  public MainGameFrame(int width, int height,User user,MusicThread musicThread) {
     this.WIDTH = width;
     this.HEIGHT = height;
-    this.server = server;
+
     this.user = user;
     this.musicThread=musicThread;
 
@@ -109,7 +107,7 @@ public class MainGameFrame extends JFrame {
     singlePlayerButton.addActionListener(e -> {
       SwingUtilities.invokeLater(() -> {
             dispose();
-            ChessGameFrame chessGameFrame = new ChessGameFrame(1100, 800, server, user,musicThread);
+            ChessGameFrame chessGameFrame = new ChessGameFrame(1100, 800,  user,musicThread);
             GameController gameController = new GameController(chessGameFrame.getChessboardComponent(), new Chessboard(), GameMode.AI_1);
             chessGameFrame.setVisible(true);
             this.dispose();
@@ -118,7 +116,7 @@ public class MainGameFrame extends JFrame {
     multiPlayerButton.addActionListener(e -> {
       SwingUtilities.invokeLater(() -> {
             dispose();
-            ChessGameFrame chessGameFrame = new ChessGameFrame(1100, 800,server, user,musicThread);
+            ChessGameFrame chessGameFrame = new ChessGameFrame(1100, 800, user,musicThread);
             GameController gameController = new GameController(chessGameFrame.getChessboardComponent(), new Chessboard(),GameMode.PLAYER);
             chessGameFrame.setVisible(true);
 
@@ -138,9 +136,7 @@ public class MainGameFrame extends JFrame {
     mainPanel.setBackgroundImage(path);
     mainPanel.repaint();
   }
-  public Server getServer() {
-    return server;
-  }
+
 
   public User getUser() {
     return user;

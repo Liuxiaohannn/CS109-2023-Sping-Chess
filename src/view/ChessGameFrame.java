@@ -1,6 +1,5 @@
 package view;
 
-import controller.Server;
 import controller.User;
 import music.MusicThread;
 import view.UI.ImagePanel;
@@ -22,7 +21,7 @@ public class ChessGameFrame extends JFrame {
 
     private final int BUTTON_WIDTH = 150;
     private final int BUTTON_HEIGHT = 50;
-    private Server server;
+
     private User user;
     private  MusicThread musicThread;
 
@@ -36,12 +35,12 @@ public class ChessGameFrame extends JFrame {
     private JButton ExitButton;
     private ChessboardComponent chessboardComponent;
     private String[] bgPaths = {"/MainBackground.png", "/Scenery.png", "/Wakuwaku.png", "/Wolf.png"};
-    public ChessGameFrame(int width, int height, Server server, User user,MusicThread musicThread) {
+    public ChessGameFrame(int width, int height,  User user,MusicThread musicThread) {
         setTitle("2023 CS109 Project Demo"); //设置标题
         this.WIDTH = width;
         this.HEIGHT = height;
         this.ONE_CHESS_SIZE = (HEIGHT * 4 / 5) / 9;
-        this.server = server;
+
         this.user = user;
         this.musicThread=musicThread;
 
@@ -198,7 +197,7 @@ public class ChessGameFrame extends JFrame {
             System.out.println("Click exit");
             SwingUtilities.invokeLater(() -> {
                 dispose();
-                MainGameFrame mainGameFrame = new MainGameFrame(800, 1000,server, user,musicThread);
+                MainGameFrame mainGameFrame = new MainGameFrame(800, 1000, user,musicThread);
                 mainGameFrame.setVisible(true);
             });
         });
@@ -214,11 +213,7 @@ public class ChessGameFrame extends JFrame {
         statusLabel.setText(status);
     }
 
-    public void recordWin() {
-        server.getRankQueue().remove(user);
-        user.setScore(user.getScore() + 1);
-        server.getRankQueue().add(user);
-    }
+
 
 
 
@@ -230,9 +225,7 @@ public class ChessGameFrame extends JFrame {
     public void setChessboardComponent(ChessboardComponent chessboardComponent) {
         this.chessboardComponent = chessboardComponent;
     }
-    public Server getServer() {
-        return server;
-    }
+
 
     public User getUser() {
         return user;

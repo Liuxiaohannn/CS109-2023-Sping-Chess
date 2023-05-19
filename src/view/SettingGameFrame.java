@@ -1,6 +1,5 @@
 package view;
 
-import controller.Server;
 import controller.User;
 import music.MusicThread;
 import view.UI.ImagePanel;
@@ -11,10 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
 
 public class SettingGameFrame extends JFrame {
 
@@ -22,7 +18,7 @@ public class SettingGameFrame extends JFrame {
   private final int HEIGHT;
   private final int BUTTON_WIDTH = 200;
   private final int BUTTON_HEIGHT = 50;
-  private Server server;
+
   private User user;
   private MainGameFrame mainGameFrame;
   private ChessGameFrame chessGameFrame;
@@ -32,7 +28,6 @@ public class SettingGameFrame extends JFrame {
 
   private RoundLabel mainLabel;
   private RoundButton loginButton;
-  private RoundButton rankButton;
   private RoundButton MusicButton;
   private RoundButton backgroundButton;
   private RoundButton chessboardButton;
@@ -40,42 +35,15 @@ public class SettingGameFrame extends JFrame {
   private RoundButton backButton;
   private JButton playPauseButton;
   private JSlider volumeSlider;
-  private boolean isPlaying ;
-  private int volume = 50;
 
-//  public SettingGameFrame(int width, int height, JFrame mainFrame) {
-//    setTitle("2023 CS109 Project Demo"); //设置标题
-//    this.WIDTH = width;
-//    this.HEIGHT = height;
-//
-//    if (mainFrame instanceof MainGameFrame) {
-//      this.mainGameFrame = (MainGameFrame) mainFrame;
-//      this.server = mainGameFrame.getServer();
-//      this.user = mainGameFrame.getUser();
-//    } else if (mainFrame instanceof ChessGameFrame) {
-//      this.chessGameFrame = (ChessGameFrame) mainFrame;
-//      this.server = chessGameFrame.getServer();
-//      this.user = chessGameFrame.getUser();
-//    } else {
-//      System.out.println("Error: mainFrame is not a MainGameFrame or ChessGameFrame");
-//    }
-//
-//    setSize(WIDTH, HEIGHT);
-//    setLocationRelativeTo(null); // Center the window.
-////    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
-//    setLayout(null);
-//
-//    initComponents();
-//    addBackgroundImage();
-//    setupLayout();
-//  }
+
+
+
   public SettingGameFrame(int width,int height,MainGameFrame mainFrame,MusicThread musicThread){
     setTitle("2023 CS109 Project Demo"); //设置标题
     this.WIDTH = width;
     this.HEIGHT = height;
     this.mainGameFrame = mainFrame;
-
-    this.server = mainGameFrame.getServer();
     this.user = mainGameFrame.getUser();
     this.musicThread=musicThread;
     setSize(WIDTH, HEIGHT);
@@ -94,7 +62,6 @@ public class SettingGameFrame extends JFrame {
     this.WIDTH = width;
     this.HEIGHT = height;
     this.chessGameFrame = chessGameFrame;
-    this.server = chessGameFrame.getServer();
     this.user = chessGameFrame.getUser();
     this.musicThread=musicThread;
     setSize(WIDTH, HEIGHT);
@@ -118,7 +85,7 @@ public class SettingGameFrame extends JFrame {
   private void initComponents() {
     addMainLabel();
     addLoginButton();
-    addRankButton();
+
     addMusicButton();
 //    addBackgroundButton();
     addChessboardButton();
@@ -155,14 +122,14 @@ public class SettingGameFrame extends JFrame {
       JPasswordField passwordField = new JPasswordField();
       inputPanel.add(passwordField);
 
-      // 添加登录,注册和取消按钮
+      // 添加登录、注册和取消按钮
       JButton loginButton = new JButton("Login");
       JButton registerButton = new JButton("Register");
       JButton cancelButton = new JButton("Cancel");
       loginButton.addActionListener(e1 -> {
-        // TODO: 进行登录操作
-        if (server.verifyUser(usernameField.getText(), passwordField.getText())) {
-          user = server.getUser(usernameField.getText());
+        // 进行登录操作
+        User user = User.loadFromFile(usernameField.getText());
+        if (user != null && user.getPassword().equals(passwordField.getText())) {
           updateLabel(usernameField.getText());
           JOptionPane.showMessageDialog(loginDialog, "Login successfully!");
           loginDialog.dispose();
@@ -171,16 +138,13 @@ public class SettingGameFrame extends JFrame {
         }
       });
       registerButton.addActionListener(e1 -> {
-        // TODO: 进行注册操作
-        if (server.verifyUser(usernameField.getText(), passwordField.getText())) {
+        // 进行注册操作
+        User existingUser = User.loadFromFile(usernameField.getText());
+        if (existingUser != null) {
           JOptionPane.showMessageDialog(loginDialog, "Username already exists!");
         } else {
-          try {
-            server.registerUser(usernameField.getText(), passwordField.getText());
-          } catch (IOException ex) {
-            throw new RuntimeException(ex);
-          }
-          user = server.getUser(usernameField.getText());
+          User newUser = new User(usernameField.getText(), passwordField.getText());
+          newUser.saveToFile();
           updateLabel(usernameField.getText());
           JOptionPane.showMessageDialog(loginDialog, "Register successfully!");
           loginDialog.dispose();
@@ -201,40 +165,8 @@ public class SettingGameFrame extends JFrame {
   }
 
 
-  private void addRankButton() {
-    rankButton = new RoundButton("Rank");
-    rankButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    rankButton.setFont(new Font("Arial", Font.BOLD, 24));
-    rankButton.addActionListener(e -> {
-      List<User> topPlayers = new ArrayList<>();
-      if (mainGameFrame != null) {
-        PriorityQueue<User> queue = mainGameFrame.getServer().getRankQueue();
-        for (int i = 0; i < 5 && !queue.isEmpty(); i++) {
-          topPlayers.add(queue.poll());
-        }
-      } else if (chessGameFrame != null) {
-        PriorityQueue<User> queue = chessGameFrame.getServer().getRankQueue();
-        for (int i = 0; i < 5 && !queue.isEmpty(); i++) {
-          topPlayers.add(queue.poll());
-        }
-      }
-      // 显示前五名的排名信息
-      showRankDialog(topPlayers);
 
-      // 将List<User> topPlayers中的User加回到优先队列中
-      if (mainGameFrame != null) {
-        PriorityQueue<User> queue = mainGameFrame.getServer().getRankQueue();
-        for (User player : topPlayers) {
-          queue.add(player);
-        }
-      } else if (chessGameFrame != null) {
-        PriorityQueue<User> queue = chessGameFrame.getServer().getRankQueue();
-        for (User player : topPlayers) {
-          queue.add(player);
-        }
-      }
-    });
-  }
+
 
   private void showRankDialog(List<User> topPlayers) {
     // 创建JDialog对象
@@ -543,7 +475,7 @@ private void addBackgroundButton(MainGameFrame mainFrame) {
   private void setupLayout(){
     mainPanel.add(mainLabel);
     mainPanel.add(loginButton);
-    mainPanel.add(rankButton);
+
     mainPanel.add(MusicButton);
     mainPanel.add(backgroundButton);
     mainPanel.add(chessboardButton);
@@ -552,7 +484,7 @@ private void addBackgroundButton(MainGameFrame mainFrame) {
 
     mainLabel.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50);
     loginButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + BUTTON_HEIGHT + 35);
-    rankButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 2 * (BUTTON_HEIGHT + 35));
+
     MusicButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 3 * (BUTTON_HEIGHT + 35));
     backgroundButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 4 * (BUTTON_HEIGHT + 35));
     chessboardButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 5 * (BUTTON_HEIGHT + 35));
