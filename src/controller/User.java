@@ -15,8 +15,8 @@ public class User implements Serializable, Comparable<User> {
   private int score;
 
   public User() {
-    this.name = "default";
-    this.password = "default";
+    this.name = "Jungle";
+    this.password = "Jungle";
     this.score = 0;
   }
 
@@ -34,9 +34,6 @@ public class User implements Serializable, Comparable<User> {
     return password;
   }
 
-  public int getScore() {
-    return score;
-  }
 
   public void setScore(int score) {
     this.score = score;

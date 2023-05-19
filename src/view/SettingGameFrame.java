@@ -8,9 +8,6 @@ import view.UI.RoundLabel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
 
 public class SettingGameFrame extends JFrame {
 
@@ -48,7 +45,7 @@ public class SettingGameFrame extends JFrame {
     this.musicThread=musicThread;
     setSize(WIDTH, HEIGHT);
     setLocationRelativeTo(null); // Center the window.
-//    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
+
     setLayout(null);
 
     initComponents();
@@ -66,8 +63,7 @@ public class SettingGameFrame extends JFrame {
     this.musicThread=musicThread;
     setSize(WIDTH, HEIGHT);
     setLocationRelativeTo(null); // Center the window.
-//    setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //设置程序关闭按键，如果点击右上方的叉就游戏全部关闭了
-    setLayout(null);
+
 
     initComponents();
     addBackgroundButton(this.chessGameFrame);
@@ -85,29 +81,26 @@ public class SettingGameFrame extends JFrame {
   private void initComponents() {
     addMainLabel();
     addLoginButton();
-
     addMusicButton();
-//    addBackgroundButton();
-    addChessboardButton();
     addRuleButton();
     addBackButton();
   }
 
   private void addMainLabel() {
-    mainLabel = new RoundLabel("Settings", getBackground(), 20);
-    mainLabel.setFont(new Font("Arial", Font.BOLD, 30));
+    mainLabel = new RoundLabel("设 置", getBackground(), 20);
+    mainLabel.setFont(new Font("宋体", Font.BOLD, 30));
     mainLabel.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     mainLabel.setHorizontalAlignment(SwingConstants.CENTER);
     mainLabel.setVerticalAlignment(SwingConstants.CENTER);
   }
 
   private void addLoginButton() {
-    loginButton = new RoundButton("Login");
+    loginButton = new RoundButton("登 录");
     loginButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    loginButton.setFont(new Font("Arial", Font.BOLD, 24));
+    loginButton.setFont(new Font("宋体", Font.BOLD, 24));
     loginButton.addActionListener(e -> {
       // 创建登录或注册的对话框
-      JDialog loginDialog = new JDialog(this, "Login", true);
+      JDialog loginDialog = new JDialog(this, "登录", true);
       loginDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
       loginDialog.setSize(300, 200);
       loginDialog.setLocationRelativeTo(this);
@@ -115,38 +108,38 @@ public class SettingGameFrame extends JFrame {
       // 添加用户名和密码的输入框
       JPanel inputPanel = new JPanel(new GridLayout(2, 2, 10, 10));
       inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-      inputPanel.add(new JLabel("Username:"));
+      inputPanel.add(new JLabel("账号:"));
       JTextField usernameField = new JTextField();
       inputPanel.add(usernameField);
-      inputPanel.add(new JLabel("Password:"));
+      inputPanel.add(new JLabel("密码:"));
       JPasswordField passwordField = new JPasswordField();
       inputPanel.add(passwordField);
 
       // 添加登录、注册和取消按钮
-      JButton loginButton = new JButton("Login");
-      JButton registerButton = new JButton("Register");
-      JButton cancelButton = new JButton("Cancel");
+      JButton loginButton = new JButton("登录");
+      JButton registerButton = new JButton("注册");
+      JButton cancelButton = new JButton("取消");
       loginButton.addActionListener(e1 -> {
         // 进行登录操作
         User user = User.loadFromFile(usernameField.getText());
         if (user != null && user.getPassword().equals(passwordField.getText())) {
           updateLabel(usernameField.getText());
-          JOptionPane.showMessageDialog(loginDialog, "Login successfully!");
+          JOptionPane.showMessageDialog(loginDialog, "登录成功");
           loginDialog.dispose();
         } else {
-          JOptionPane.showMessageDialog(loginDialog, "Username or password is incorrect!");
+          JOptionPane.showMessageDialog(loginDialog, "账号或密码错误!");
         }
       });
       registerButton.addActionListener(e1 -> {
         // 进行注册操作
         User existingUser = User.loadFromFile(usernameField.getText());
         if (existingUser != null) {
-          JOptionPane.showMessageDialog(loginDialog, "Username already exists!");
+          JOptionPane.showMessageDialog(loginDialog, "用户名已存在!");
         } else {
           User newUser = new User(usernameField.getText(), passwordField.getText());
           newUser.saveToFile();
           updateLabel(usernameField.getText());
-          JOptionPane.showMessageDialog(loginDialog, "Register successfully!");
+          JOptionPane.showMessageDialog(loginDialog, "注册成功!");
           loginDialog.dispose();
         }
       });
@@ -164,45 +157,10 @@ public class SettingGameFrame extends JFrame {
     });
   }
 
-
-
-
-
-  private void showRankDialog(List<User> topPlayers) {
-    // 创建JDialog对象
-    JDialog dialog = new JDialog(this, "Rank", true);
-    dialog.setSize(400, 300);
-    dialog.setResizable(false);
-    dialog.setLocationRelativeTo(null);
-    dialog.setLayout(new BorderLayout());
-
-    // 创建表头
-    Object[] columnNames = {"Rank", "Name", "Score"};
-    // 创建表格数据
-    Object[][] rowData = new Object[topPlayers.size()][3];
-    for (int i = 0; i < topPlayers.size(); i++) {
-      User player = topPlayers.get(i);
-      rowData[i][0] = i + 1;
-      rowData[i][1] = player.getName();
-      rowData[i][2] = player.getScore();
-    }
-
-    // 创建JTable对象
-    JTable table = new JTable(rowData, columnNames);
-    table.setEnabled(false);  // 禁用表格编辑功能
-    JScrollPane scrollPane = new JScrollPane(table);
-
-    // 将表格添加到弹窗中
-    dialog.add(scrollPane, BorderLayout.CENTER);
-
-    // 显示弹窗
-    dialog.setVisible(true);
-  }
-
   private void addMusicButton() {
-    MusicButton = new RoundButton("Music");
+    MusicButton = new RoundButton("音 乐");
     MusicButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    MusicButton.setFont(new Font("Arial", Font.BOLD, 24));
+    MusicButton.setFont(new Font("宋体", Font.BOLD, 24));
 
     volumeSlider=new JSlider(JSlider.HORIZONTAL,0,100,50);
     previousSliderValue = volumeSlider.getValue();
@@ -215,23 +173,23 @@ public class SettingGameFrame extends JFrame {
     int initialSliderValue = (int) (initialVolume * 100);
     volumeSlider.setValue(initialSliderValue);
     if (musicThread.isPlaying){
-      playPauseButton=new JButton("Pause");
+      playPauseButton=new JButton("暂 停");
     }else{
-      playPauseButton=new JButton("Play");
+      playPauseButton=new JButton("播 放");
     }
     playPauseButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    playPauseButton.setFont(new Font("Arial", Font.BOLD, 15));
+    playPauseButton.setFont(new Font("宋体", Font.BOLD, 15));
     playPauseButton.addActionListener(e -> {
       if (musicThread.isPlaying){
         musicThread.pauseMusic();
         previousSliderValue = volumeSlider.getValue();
         volumeSlider.setValue(0);
-        playPauseButton.setText("Play");
+        playPauseButton.setText("播 放");
         playPauseButton.repaint();
       }else{
         musicThread.playMusic();
         volumeSlider.setValue(previousSliderValue);
-        playPauseButton.setText("Pause");
+        playPauseButton.setText("暂 停");
         playPauseButton.repaint();
         volumeSlider.repaint();
       }
@@ -242,7 +200,7 @@ public class SettingGameFrame extends JFrame {
 
 
     MusicButton.addActionListener(e -> {
-      JDialog MusicButtonDialog=new JDialog(this, "Music", true);
+      JDialog MusicButtonDialog=new JDialog(this, "音 乐", true);
       MusicButtonDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
       MusicButtonDialog.setSize(300, 200);
       MusicButtonDialog.setLocationRelativeTo(this);
@@ -253,24 +211,11 @@ public class SettingGameFrame extends JFrame {
       MusicButtonDialog.setVisible(true);
     });
   }
-//  private void togglePlayPause() {
-//    if (musicThread.isPlaying) {
-//      // 暂停音乐播放
-//      musicThread.pauseMusic();
-//      playPauseButton.setText("Play");
-//    } else {
-//      // 播放音乐
-//      musicThread.playMusic();
-//      playPauseButton.setText("Pause");
-//    }
-//    musicThread.isPlaying =!musicThread.isPlaying;
-//  }
-
 
   private void addBackgroundButton(ChessGameFrame chessGameFrame) {
-    backgroundButton = new RoundButton("Background");
+    backgroundButton = new RoundButton("背 景");
     backgroundButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    backgroundButton.setFont(new Font("Arial", Font.BOLD, 24));
+    backgroundButton.setFont(new Font("宋体", Font.BOLD, 24));
     backgroundButton.addActionListener(e -> {
 //      SettingGameFrame settingGameFrame=new SettingGameFrame(500,500,this.chessGameFrame);
 
@@ -280,7 +225,7 @@ public class SettingGameFrame extends JFrame {
         return;
       }
       // 创建背景选择对话框
-      JDialog backgroundDialog = new JDialog(this, "Background", true);
+      JDialog backgroundDialog = new JDialog(this, "背 景", true);
       backgroundDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
       backgroundDialog.setSize(300, 200);
       backgroundDialog.setLocationRelativeTo(this);
@@ -289,10 +234,10 @@ public class SettingGameFrame extends JFrame {
       // 添加背景选择按钮
       JPanel inputPanel = new JPanel(new GridLayout(2, 2, 10, 10));
       inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-      JButton background1Button = new JButton("Background 1");
-      JButton background2Button = new JButton("Background 2");
-      JButton background3Button = new JButton("Background 3");
-      JButton background4Button = new JButton("Background 4");
+      JButton background1Button = new JButton("背景 1");
+      JButton background2Button = new JButton("背景 2");
+      JButton background3Button = new JButton("背景 3");
+      JButton background4Button = new JButton("背景 4");
       background1Button.addActionListener(e1 -> {
         backgroundDialog.dispose();
         chessGameFrame.setBackgroundImage(1);
@@ -319,9 +264,9 @@ public class SettingGameFrame extends JFrame {
     });
   }
 private void addBackgroundButton(MainGameFrame mainFrame) {
-    backgroundButton = new RoundButton("Background");
+    backgroundButton = new RoundButton("背 景");
     backgroundButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    backgroundButton.setFont(new Font("Arial", Font.BOLD, 24));
+    backgroundButton.setFont(new Font("宋体", Font.BOLD, 24));
     backgroundButton.addActionListener(e -> {
       System.out.println("backgroundButton clicked");
       if (mainFrame == null) {
@@ -329,7 +274,7 @@ private void addBackgroundButton(MainGameFrame mainFrame) {
         return;
       }
       // 创建背景选择对话框
-      JDialog backgroundDialog = new JDialog(this, "Background", true);
+      JDialog backgroundDialog = new JDialog(this, "背 景", true);
       backgroundDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
       backgroundDialog.setSize(300, 200);
       backgroundDialog.setLocationRelativeTo(this);
@@ -338,10 +283,10 @@ private void addBackgroundButton(MainGameFrame mainFrame) {
       // 添加背景选择按钮
       JPanel inputPanel = new JPanel(new GridLayout(2, 2, 10, 10));
       inputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-      JButton background1Button = new JButton("Background 1");
-      JButton background2Button = new JButton("Background 2");
-      JButton background3Button = new JButton("Background 3");
-      JButton background4Button = new JButton("Background 4");
+      JButton background1Button = new JButton("背景 1");
+      JButton background2Button = new JButton("背景 2");
+      JButton background3Button = new JButton("背景 3");
+      JButton background4Button = new JButton("背景 4");
       background1Button.addActionListener(e1 -> {
         backgroundDialog.dispose();
         mainFrame.setBackgroundImage(1);
@@ -368,24 +313,15 @@ private void addBackgroundButton(MainGameFrame mainFrame) {
     });
   }
 
-  private void addChessboardButton() {
-    chessboardButton = new RoundButton("Chessboard");
-    chessboardButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    chessboardButton.setFont(new Font("Arial", Font.BOLD, 24));
-  }
+
 
   private void addRuleButton() {
-    ruleButton = new RoundButton("Rule");
+    ruleButton = new RoundButton("规 则");
     ruleButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    ruleButton.setFont(new Font("Arial", Font.BOLD, 24));
+    ruleButton.setFont(new Font("宋体", Font.BOLD, 24));
 
     // Add an ActionListener to the ruleButton
-    ruleButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        showGameRules();
-      }
-    });
+    ruleButton.addActionListener(e -> showGameRules());
   }
 
   private void showGameRules() {
@@ -460,9 +396,9 @@ private void addBackgroundButton(MainGameFrame mainFrame) {
   }
 
   private void addBackButton() {
-    backButton = new RoundButton("Back");
+    backButton = new RoundButton("返 回");
     backButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-    backButton.setFont(new Font("Arial", Font.BOLD, 24));
+    backButton.setFont(new Font("宋体", Font.BOLD, 24));
     backButton.addActionListener(e -> {
       dispose();
     });
@@ -475,21 +411,16 @@ private void addBackgroundButton(MainGameFrame mainFrame) {
   private void setupLayout(){
     mainPanel.add(mainLabel);
     mainPanel.add(loginButton);
-
     mainPanel.add(MusicButton);
     mainPanel.add(backgroundButton);
-    mainPanel.add(chessboardButton);
     mainPanel.add(ruleButton);
     mainPanel.add(backButton);
-
     mainLabel.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50);
     loginButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + BUTTON_HEIGHT + 35);
-
-    MusicButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 3 * (BUTTON_HEIGHT + 35));
-    backgroundButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 4 * (BUTTON_HEIGHT + 35));
-    chessboardButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 5 * (BUTTON_HEIGHT + 35));
-    ruleButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 6 * (BUTTON_HEIGHT + 35));
-    backButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 7 * (BUTTON_HEIGHT + 35));
+    MusicButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 2* (BUTTON_HEIGHT + 35));
+    backgroundButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 3* (BUTTON_HEIGHT + 35));
+    ruleButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 4 * (BUTTON_HEIGHT + 35));
+    backButton.setLocation(WIDTH / 2 - BUTTON_WIDTH / 2, HEIGHT / 8 - 50 + 5 * (BUTTON_HEIGHT + 35));
 
     if (mainGameFrame != null) {
       updateLabel(mainGameFrame.getUser().getName());
