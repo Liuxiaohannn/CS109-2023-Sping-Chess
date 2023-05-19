@@ -14,9 +14,7 @@ public class Chessboard {
     private final Set<ChessboardPoint> densCell = new HashSet<>();
 
     public Chessboard() {
-        this.grid =
-                new Cell[Constant.CHESSBOARD_ROW_SIZE.getNum()][Constant.CHESSBOARD_COL_SIZE.getNum()];//19X19
-
+        this.grid = new Cell[Constant.CHESSBOARD_ROW_SIZE.getNum()][Constant.CHESSBOARD_COL_SIZE.getNum()];//19X19
         initSets();
         initGrid();
         initPieces();

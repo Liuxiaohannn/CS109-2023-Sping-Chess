@@ -208,6 +208,8 @@ public class ChessboardComponent extends JComponent {
         int result = JOptionPane.showConfirmDialog(this, winner + " Win! Do you want to restart?", "Game Over", JOptionPane.YES_NO_OPTION);
         if (result == JOptionPane.YES_OPTION) {
           gameController.restart();
+          gameController.setTurn(0);
+          gameController.setCurrentPlayer(PlayerColor.RED);
         }
     }
 

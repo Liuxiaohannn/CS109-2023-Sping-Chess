@@ -176,7 +176,7 @@ public class GameController implements GameListener {
         view.initiateChessComponent(model);
         view.revalidate();
         view.repaint();
-        currentPlayer = PlayerColor.BLUE;
+        this.currentPlayer = PlayerColor.BLUE;
         winner = null;
         selectedPoint = null;
         turnCount = 1;
@@ -292,5 +292,11 @@ public class GameController implements GameListener {
                 timer2.start();
             }
         }
+    }
+    public void setTurn(int turnCount){
+        this.turnCount = turnCount;
+    }
+    public void setCurrentPlayer(PlayerColor player){
+        this.currentPlayer = player;
     }
 }

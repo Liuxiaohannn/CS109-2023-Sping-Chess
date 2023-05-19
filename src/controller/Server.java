@@ -62,10 +62,6 @@ public class Server implements Serializable {
     }
   }
 
-  public Map<String, String> getUserMap() {
-    return userMap;
-  }
-
   public PriorityQueue<User> getRankQueue() {
     return rankQueue;
   }
