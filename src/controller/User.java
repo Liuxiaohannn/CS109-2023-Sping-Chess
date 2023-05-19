@@ -47,7 +47,7 @@ public class User implements Serializable, Comparable<User> {
     return this.score - o.score;
   }
   public void saveToFile() {
-    try (FileWriter writer = new FileWriter("users.txt", true)) {
+    try (FileWriter writer = new FileWriter("resources/users.txt", true)) {
       String data = name + "," + password + "," + score + "\n";
       writer.write(data);
     } catch (IOException e) {
