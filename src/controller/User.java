@@ -9,21 +9,21 @@ import java.util.Scanner;
 
 
 
-public class User implements Serializable, Comparable<User> {
+public class User implements Serializable{
   private String name;
   private String password;
-  private int score;
+
 
   public User() {
     this.name = "Jungle";
     this.password = "Jungle";
-    this.score = 0;
+
   }
 
   public User(String name, String password) {
     this.name = name;
     this.password = password;
-    this.score = 0;
+
   }
 
   public String getName() {
@@ -35,17 +35,10 @@ public class User implements Serializable, Comparable<User> {
   }
 
 
-  public void setScore(int score) {
-    this.score = score;
-  }
 
-  @Override
-  public int compareTo(User o) {
-    return this.score - o.score;
-  }
   public void saveToFile() {
     try (FileWriter writer = new FileWriter("resources/users.txt", true)) {
-      String data = name + "," + password + "," + score + "\n";
+      String data = name + "," + password + "," +  "\n";
       writer.write(data);
     } catch (IOException e) {
       e.printStackTrace();
@@ -59,9 +52,9 @@ public class User implements Serializable, Comparable<User> {
         String[] parts = line.split(",");
         if (parts[0].equals(name)) {
           String password = parts[1];
-          int score = Integer.parseInt(parts[2]);
+
           User user = new User(name, password);
-          user.setScore(score);
+
           return user;
         }
       }

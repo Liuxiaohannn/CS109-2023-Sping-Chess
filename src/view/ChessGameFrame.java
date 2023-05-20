@@ -137,9 +137,9 @@ public class ChessGameFrame extends JFrame {
     }
 
     private void addRestartButton() {
-        RestartButton = new RoundButton("Restart");
+        RestartButton = new RoundButton("重新开始");
         RestartButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        RestartButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+        RestartButton.setFont(new Font("宋体", Font.BOLD, 20));
         RestartButton.addActionListener(e -> {
             System.out.println("Click restart");
             chessboardComponent.getGameController().restart();
@@ -147,9 +147,9 @@ public class ChessGameFrame extends JFrame {
     }
 
     private void addUndoButton() {
-        UndoButton = new RoundButton("Undo");
+        UndoButton = new RoundButton("悔  棋");
         UndoButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        UndoButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+        UndoButton.setFont(new Font("宋体", Font.BOLD, 20));
         UndoButton.addActionListener(e -> {
             System.out.println("Click undo");
             chessboardComponent.getGameController().undo();
@@ -157,9 +157,9 @@ public class ChessGameFrame extends JFrame {
     }
 
     private void addSaveButton() {
-        SaveButton = new RoundButton("Save");
+        SaveButton = new RoundButton("保  存");
         SaveButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        SaveButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+        SaveButton.setFont(new Font("宋体", Font.BOLD, 20));
         SaveButton.addActionListener(e -> {
             System.out.println("Click save");
             chessboardComponent.getGameController().save();
@@ -167,9 +167,9 @@ public class ChessGameFrame extends JFrame {
     }
 
     private void addLoadButton() {
-        LoadButton = new RoundButton("Load");
+        LoadButton = new RoundButton("读取存档");
         LoadButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        LoadButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+        LoadButton.setFont(new Font("宋体", Font.BOLD, 20));
         LoadButton.addActionListener(e -> {
             System.out.println("Click load");
             chessboardComponent.getGameController().load();
@@ -177,9 +177,9 @@ public class ChessGameFrame extends JFrame {
     }
 
     private void addSettingButton() {
-        SettingButton = new RoundButton("Setting");
+        SettingButton = new RoundButton("设  置");
         SettingButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        SettingButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+        SettingButton.setFont(new Font("宋体", Font.BOLD, 20));
         SettingButton.addActionListener(e -> {
             System.out.println("Click setting");
             SwingUtilities.invokeLater(() -> {
@@ -190,14 +190,14 @@ public class ChessGameFrame extends JFrame {
     }
 
     private void addExitButton() {
-        ExitButton = new RoundButton("Exit");
+        ExitButton = new RoundButton("退  出");
         ExitButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        ExitButton.setFont(new Font("Rockwell", Font.BOLD, 20));
+        ExitButton.setFont(new Font("宋体", Font.BOLD, 20));
         ExitButton.addActionListener(e -> {
             System.out.println("Click exit");
             SwingUtilities.invokeLater(() -> {
                 dispose();
-                MainGameFrame mainGameFrame = new MainGameFrame(800, 1000, user,musicThread);
+                MainGameFrame mainGameFrame = new MainGameFrame(600, 750, user,musicThread);
                 mainGameFrame.setVisible(true);
             });
         });
