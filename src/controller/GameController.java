@@ -262,7 +262,6 @@ public class GameController implements GameListener {
                 timer1.setRepeats(false);
                 timer1.start();
 
-                // 使用javax.swing.Timer创建一个定时器
                 Timer timer2 = new Timer(2000, e -> {
                     hideValidMoves();
                     selectedPoint = null;

@@ -15,8 +15,6 @@ public class AiPlayer {
         this.model = model;
     }
     public Step generateMove(PlayerColor color) {
-        // 生成一个合适的AI走棋步骤
-        // 简化起见，这里仅选择一个合法的随机移动
         if (gameMode == GameMode.AI_1) {
             return AiMove1(color);
         }

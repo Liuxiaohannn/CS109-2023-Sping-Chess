@@ -208,12 +208,8 @@ public class Chessboard {
         if (srcPiece.getOwner() == destPiece.getOwner()) {
             return false;
         }
-        // 在河里的老鼠不能被捕获
-        if (getGridAt(dest).getType() == GridType.RIVER) {
-            return false;
-        }
-        // 在河里的老鼠不能捕获大象
-        if (getGridAt(src).getType() == GridType.RIVER) {
+        // 在河里的老鼠不能被捕获 ， 在河里的老鼠不能捕获大象
+        if (getGridAt(dest).getType() == GridType.RIVER ||getGridAt(src).getType() == GridType.RIVER) {
             return false;
         }
         // 狮子和虎可以跳过河来捕获
@@ -239,7 +235,7 @@ public class Chessboard {
                 }
                 return srcPiece.canCapture(destPiece);
             }
-            if (src.col() == dest.col()) {
+            else {
                 int step = src.row() < dest.row() ? 1 : -1;
                 int row = src.row() + step;
                 while (row != dest.row()) {
@@ -311,7 +307,6 @@ public class Chessboard {
     public Step recordStep(ChessboardPoint fromPoint, ChessboardPoint toPoint, PlayerColor currentPlayer, int turn){
         ChessPiece fromPiece = getChessPieceAt(fromPoint);
         ChessPiece toPiece = getChessPieceAt(toPoint);
-        //        System.out.println(step);
         return new Step(fromPoint, toPoint, fromPiece, toPiece, currentPlayer, turn);
     }
     //悔棋返回上一步
@@ -369,87 +364,4 @@ public class Chessboard {
         }
         return availableSteps;
     }
-//    public List<Step> getValidSteps(PlayerColor color){
-//        List<Step> availableSteps = new ArrayList<>();
-//        List<ChessboardPoint> availablePoints = getValidPoints(color);
-//        for (ChessboardPoint point : availablePoints) {
-//            List<ChessboardPoint> validMoves = getValidMoves(point);
-//            for (ChessboardPoint destPoint : validMoves) {
-//                availableSteps.add(recordStep(point, destPoint, color, 0));
-//            }
-//        }
-//        return availableSteps;
-//    }
-//
-//    public List<Step> getValidStepsWithValue(PlayerColor color){
-//        List<Step> availableSteps = new ArrayList<>();
-//        List<ChessboardPoint> availablePoints = getValidPoints(color);
-//        for (ChessboardPoint point : availablePoints) {
-//            List<ChessboardPoint> validMoves = getValidMoves(point);
-//            for (ChessboardPoint destPoint : validMoves) {
-//                Step step = recordStep(point, destPoint, color, 0);
-//                //越接近敌方基地，价值越高
-//                if (color == PlayerColor.RED) {
-//                    step.setValue(destPoint.getRow() - point.getRow() + Math.abs(3 - point.getCol()) - Math.abs(3 - destPoint.getCol()));
-//                } else {
-//                    step.setValue(point.getRow() - destPoint.getRow() + Math.abs(3 - point.getCol()) - Math.abs(3 - destPoint.getCol()));
-//                }
-//                if (getChessPieceAt(destPoint) != null) {
-//                    step.setValue(step.getValue() + (int) Math.pow(getChessPieceAt(destPoint).getRank(),2));
-//                }
-//                if (getGridAt(destPoint).getType() == GridType.DENS && getGridAt(destPoint).getOwner() != color) {
-//                    step.setValue(10000);
-//                }
-//                if (getGridAt(destPoint).getType() == GridType.TRAP && getGridAt(destPoint).getOwner() != color) {
-//                    //检查周围是否有敌人
-//                    if (getChessPieceAt(destPoint) != null) {
-//                        step.setValue((int) Math.pow(getChessPieceAt(destPoint).getRank(),2));
-//                    } else {
-//                        boolean hasEnemy = false;
-//                        for (int k = 0; k < 4; k++) {
-//                            ChessboardPoint neighborPoint = destPoint.getNeighbor(k);
-//                            if (neighborPoint.getRow()<0 || neighborPoint.getRow()>8 || neighborPoint.getCol()<0 || neighborPoint.getCol()>6) {
-//                                continue;
-//                            }
-//                            if (getChessPieceAt(neighborPoint) != null && getChessPieceAt(neighborPoint).getOwner() != color) {
-//                                step.setValue(-1);
-//                                hasEnemy = true;
-//                                break;
-//                            }
-//                        }
-//                        if (!hasEnemy) {
-//                            step.setValue(10000);
-//                        }
-//                    }
-//                }
-//                availableSteps.add(step);
-//            }
-//        }
-//        return availableSteps;
-//    }
-//
-//    public void moveMusic(ChessboardPoint point){
-//        ChessPiece chessPiece = getChessPieceAt(point);
-//        MusicThread musicThread = null;
-//
-//        if (chessPiece.getName().equals("Rat")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Moiuse squeal 2.wav"), false);
-//        } else if (chessPiece.getName().equals("Cat")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Cat meow 5.wav"), false);
-//        } else if (chessPiece.getName().equals("Dog")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Dog bark 3.wav"), false);
-//        } else if (chessPiece.getName().equals("Wolf")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Wolf barks 1.wav"), false);
-//        } else if (chessPiece.getName().equals("Leopard")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Lion roar 3.wav"), false);
-//        } else if (chessPiece.getName().equals("Tiger")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Tiger attack 1.wav"), false);
-//        } else if (chessPiece.getName().equals("Lion")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Lion atacks, bites 5.wav"), false);
-//        } else if (chessPiece.getName().equals("Elephant")){
-//            musicThread = new MusicThread(getClass().getResource("/music/Elephant Trumpeting 1.wav"), false);
-//        }
-//        Thread music = new Thread(musicThread);
-//        music.start();
-//}
 }
